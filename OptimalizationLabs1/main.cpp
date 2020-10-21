@@ -21,11 +21,11 @@ int main()
 
 		matrix *Y = solve_ode(t0, dt, tend, Y0);
 
-		ofstream S("//Users//krzysiu//Desktop//projekty//optymalizacje//tout.csv");
+		ofstream S("..//tout.csv");
 		S << Y[0];
 		S.close();
 
-		S.open("//Users//krzysiu//Desktop//projekty//optymalizacje//yout.csv");
+		S.open("..//yout.csv");
 		S << Y[1];
 		S.close();
 
