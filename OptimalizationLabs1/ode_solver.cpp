@@ -36,6 +36,17 @@ matrix *solve_ode(double t0, double dt, double tend, const matrix &Y0, matrix P)
 
 matrix diff(double t, const matrix &Y, matrix P)
 {
+#if LAB_NO == 1
+
+	double m = 5, b = 1.5, k = 1, F = 0;
+
+	matrix dY(Y);
+	dY(0) = Y(1);
+	dY(1) = (F - b*Y(1) - k*Y(0)) / m;
+
+	return dY;
+#else
 	matrix dY;
 	return dY;
+#endif
 }
