@@ -3,6 +3,7 @@
 #include "matrix.h"
 #include <math.h>
 
+
 matrix::matrix(int nv, int mv)
 {
 	if (nv <= 0 || mv <= 0)

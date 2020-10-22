@@ -7,6 +7,7 @@
 #include <random>
 #include <chrono>
 
+
 #if LAB_NO>1
 double *expansion(double x0, double d, double alfa, int Nmax, matrix O = 0.0);
 solution fib(double a, double b, double epsilon, matrix O = 0.0);

@@ -1,6 +1,8 @@
 //Do not edit the code below (unless you know what you are doing)
 
-#include"solution.h"
+#include <math.h>
+#include "solution.h"
+
 
 int solution::f_calls = 0;
 int solution::g_calls = 0;
@@ -51,7 +53,11 @@ ostream &operator<<(ostream &S, const solution &A)
 
 void solution::fit_fun(matrix O)
 {
-	//y = NAN;
+#if LAB == 2
+    
+    y = -cos(0.1*x) * exp(-pow(0.1*x - 2*M_PI, 2))  +  0.002 * pow(0.1x,2);
+    
+#endif
 	++f_calls;
 }
 

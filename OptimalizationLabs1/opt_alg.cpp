@@ -1,48 +1,57 @@
 #include "opt_alg.h"
+
+
 #if LAB_NO>1
 double *expansion(double x0, double d, double alfa, int Nmax, matrix O)
 {
 	double *p = new double[2];
-	solution X0(? ), X1(? );
+	solution X0(x0), X1(d);
 	X0.fit_fun();
 	X1.fit_fun();
-	if (? )
+    
+    if (X0.y == X1.y)
 	{
-		p[0] = ? ;
-		p[1] = ? ;
+		p[0] = x0;
+		p[1] = d;
 		return p;
 	}
-	if (? )
+    if (X1.y > X0.y)
 	{
 		d *= -1;
-		X1.x = ? ;
+		X1.x = d;
 		X1.fit_fun();
-		if (? )
+        
+		if (X1.y >= X0.y)
 		{
-			p[0] = ? ;
-			p[1] = ? ;
+			p[0] = d;
+			p[1] = -d;
 			return p;
 		}
 	}
-	solution X2;
+    
+	solution X2(d);
 	int i = 1;
 	while (true)
 	{
-		X2.x = ? ;
+        X2.x = X1.x * alfa;
 		X2.fit_fun();
-		if (? )
+        
+		if (i > Nmax)
 			break;
-		X0 = ? ;
-		X1 = ? ;
+        
+		X0 = X1;
+		X1 = X2;
 		++i;
 	}
-	? ;
+    p[0] = X1.x(0,0);
+    p[1] = X2.x(0,0);
+    
 	return p;
 }
 
 solution fib(double a, double b, double epsilon, matrix O)
 {
-	int n = ? ;
+	int n = ?;
 	int *F = new int[n] {1, 1};
 	for (int i = 2; i < n; ++i)
 		F[i] = F[i - 2] + F[i - 1];
