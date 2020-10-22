@@ -28,8 +28,13 @@ int main()
 		S.open("..//yout.csv");
 		S << Y[1];
 		S.close();
-
-    #endif // LAB_NO == 1
+    
+    #endif
+    #if LAB_NO == 2
+    
+        
+        
+    #endif
 
 	}
 	catch (char * EX_INFO)
