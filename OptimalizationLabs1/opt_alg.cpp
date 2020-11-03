@@ -4,23 +4,25 @@
 #if LAB_NO>1
 double *expansion(double x0, double d, double alfa, int Nmax, matrix O)
 {
-	double *p = new double[2];
+	double* p = new double[2];
 	solution X0(x0), X1(d);
 	X0.fit_fun();
 	X1.fit_fun();
-    
-    if (X0.y == X1.y)
+
+	cout << X0.y << " " << X1.y << endl;
+	if (X0.y == X1.y)
 	{
 		p[0] = x0;
 		p[1] = d;
 		return p;
 	}
-    if (X1.y > X0.y)
+	cout << "**" << endl;
+	if (X1.y > X0.y)
 	{
 		d *= -1;
 		X1.x = d;
 		X1.fit_fun();
-        
+
 		if (X1.y >= X0.y)
 		{
 			p[0] = d;
@@ -28,91 +30,157 @@ double *expansion(double x0, double d, double alfa, int Nmax, matrix O)
 			return p;
 		}
 	}
-    
-	solution X2(d);
+	cout << "przed" << endl;
+	solution X2(x0);
 	int i = 1;
-	while (true)
+	while (X2.y >= X1.y)
 	{
-        X2.x = X1.x * alfa;
+		cout << "cos" << endl;
+		X2.x = d * pow(alfa, i);
 		X2.fit_fun();
-        
+
 		if (i > Nmax)
 			break;
-        
+
 		X0 = X1;
 		X1 = X2;
 		++i;
 	}
-    p[0] = X1.x(0,0);
-    p[1] = X2.x(0,0);
-    
+	p[0] = X0.x(0, 0);
+	p[1] = X2.x(0, 0);
+
 	return p;
+	//double *p = new double[2];
+	//solution X0(x0), X1(x0 + d);
+	//double x1 = x0 + d;
+	//X0.fit_fun();
+	//X1.fit_fun();
+ //   
+ //   if (X0.y == X1.y)
+	//{
+	//	p[0] = x0;
+	//	p[1] = x0 + d;
+	//	cout << "r1"<<endl;
+	//	return p;
+	//}
+ //   if (X1.y > X0.y)
+	//{
+	//	d *= -1;
+	//	X1.x = x0 + d;
+	//	x1 *= -1;
+	//	X1.fit_fun();
+ //       
+	//	if (X1.y >= X0.y)
+	//	{
+	//		p[0] = X1.x(0,0);
+	//		p[1] = -X1.x(0,0);
+	//		cout << "r2"<<endl;
+	//		return p;
+	//	}
+	//}
+ //   
+	//solution X2(-x1);
+	//int i = 1;
+	//while (X1.y <= X2.y)
+	//{
+	//	cout << "while" << endl;
+	//	X2.x = (x1) * pow(alfa, i);
+	//	X2.fit_fun();
+	//	if ( i>Nmax )
+	//		break;
+	//	X0 = X1 ;
+	//	X1 = X2 ;
+	//	++i;
+	//}
+	//if (X2.x > X0.x) {
+	//	p[0] = X0.x(0, 0);
+	//	p[1] = X2.x(0, 0);
+	//}
+	//else {
+	//	p[0] = X2.x(0, 0);
+	//	p[1] = X0.x(0, 0);
+	//}
+	//return p;
 }
 
 solution fib(double a, double b, double epsilon, matrix O)
 {
-	int n = ?;
+	int n = 100;
+	double s =( b - a) / epsilon;
+	int k_i;
 	int *F = new int[n] {1, 1};
-	for (int i = 2; i < n; ++i)
+	for (int i = 2; i < n; ++i) {
 		F[i] = F[i - 2] + F[i - 1];
-	solution A(? ), B(? ), C, D;
-	C.x = ? ;
-	D.x = ? ;
+		if (F[i] > s) {
+			k_i = i;
+			break;
+		}
+	}
+
+	solution A(a ), B(b ), C(0.), D(0.);
+	C.x = matrix(b-((double)F[k_i-1]/F[k_i])*(b-a));
+	D.x = matrix(a+b)-C.x ;
 	C.fit_fun();
 	D.fit_fun();
-	for (int i = 0; i <= n - 3; ++i)
+	for (int i = 0; i <= k_i+1 - 3; ++i)
 	{
-		if (? )
-			? ;
-		else
-			? ;
-		C.x = ? ;
-		D.x = ? ;
+		if (C.y < D.y) {
+			B.x = D.x;
+		}
+		else {
+			A.x = C.x;
+		}
+		C.x = B.x - ((double)F[k_i-i-2]/F[k_i-i-1])*(B.x-A.x) ;
+		D.x = A.x+B.x-C.x ;
 		C.fit_fun();
 		D.fit_fun();
+		//cout << A.x << " " << B.x << " " << C.x << " " << D.x << endl;
+		////modyfikacja wypisujaca wartosci w kolejnych iteracjach
+		//cout << C.x << endl;
 	}
 	return C;
 }
 
 solution lag(double a, double b, double epsilon, double gamma, int Nmax, matrix O)
 {
-	solution A(? ), B(? ), C, D;
-	C.x = ? ;
+	solution A(a), B(b), C(0.), D(0.), dD(0.);
+	C.x = (a + b) / 2;
 	A.fit_fun();
 	B.fit_fun();
 	C.fit_fun();
 	double l, m;
 	while (true)
 	{
-		l = A.y(0)*(pow(B.x(0), 2) - pow(C.x(0), 2)) + B.y(0)*(pow(C.x(0), 2) - pow(A.x(0), 2)) + C.y(0)*(pow(A.x(0), 2) - pow(B.x(0), 2));
-		m = A.y(0)*(B.x(0) - C.x(0)) + B.y(0)*(C.x(0) - A.x(0)) + C.y(0)*(A.x(0) - B.x(0));
+		l = A.y(0) * (pow(B.x(0), 2) - pow(C.x(0), 2)) + B.y(0) * (pow(C.x(0), 2) - pow(A.x(0), 2)) + C.y(0) * (pow(A.x(0), 2) - pow(B.x(0), 2));
+		m = A.y(0) * (B.x(0) - C.x(0)) + B.y(0) * (C.x(0) - A.x(0)) + C.y(0) * (A.x(0) - B.x(0));
 		if (m <= 0)
 		{
 			C.x = NAN;
 			C.y = NAN;
 			return C;
 		}
-		D.x = ? ;
+		D.x = (l / m) / 2;
 		D.fit_fun();
-		if (? )
+
+		if (A.x < D.x && D.x < C.x)
 		{
-			if (? )
+			if (D.y < C.y)
 			{
-				? ;
-				? ;
+				B.x = C.x;
+				C.x = D.x;
 			}
 			else
-				? ;
+				A.x = D.x;
 		}
-		else if (? )
+		else if (C.x < D.x && D.x < B.x)
 		{
-			if (? )
+			if (D.y < C.y)
 			{
-				? ;
-				? ;
+				A.x = C.x;
+				C.x = D.x;
 			}
 			else
-				? ;
+				B.x = D.x;
 		}
 		else
 		{
@@ -120,8 +188,9 @@ solution lag(double a, double b, double epsilon, double gamma, int Nmax, matrix 
 			C.y = NAN;
 			return C;
 		}
-		if (? )
+		if ((B.x - A.x < epsilon) || (abs(D.x(0, 0) - dD.x(0, 0)) <= gamma))
 			return C;
+		dD.x = D.x;
 	}
 }
 #endif
