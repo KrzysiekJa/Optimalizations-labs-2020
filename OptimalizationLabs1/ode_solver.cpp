@@ -45,6 +45,20 @@ matrix diff(double t, const matrix &Y, matrix P)
 	dY(1) = (F - b*Y(1) - k*Y(0)) / m;
 
 	return dY;
+
+#endif
+#if LAB_NO ==2
+	matrix dY(Y);
+	double a=0.98, b=0.63, g=9.81, PA=1, PB=1, DB= 0.00365665, Fin = 0.01, Tin=10, TA=90; //podane w konspekcie
+	double DA = P(0); //P[1][1]
+
+	double FAout = Y(0) > 0 ? a * b * DA * sqrt(2 * g * Y(0) / PA) : 0;
+	double FBout = Y(1) > 0 ? a * b * DB * sqrt(2 * g * Y(1) / PB) : 0;
+	
+	dY(0) = -FAout;
+	dY(1) = FAout + Fin - FBout;
+	//dY(2)=   //dTb, z konspektu
+	return dY;
 #else
 	matrix dY;
 	return dY;
