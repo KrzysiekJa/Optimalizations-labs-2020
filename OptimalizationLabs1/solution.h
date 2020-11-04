@@ -18,7 +18,7 @@ public:
 	static int g_calls;
 	static int H_calls;
 	static void clear_calls();
-    solution(double);
+    solution(double = 0.0);
 	solution(const matrix &);
 	solution(double *, int);
 	void fit_fun(matrix = 0.0);

@@ -5,102 +5,58 @@
 double *expansion(double x0, double d, double alfa, int Nmax, matrix O)
 {
 	double* p = new double[2];
-	solution X0(x0), X1(d);
+	solution X0(x0), X1(x0 + d);
 	X0.fit_fun();
 	X1.fit_fun();
 
-	cout << X0.y << " " << X1.y << endl;
+    
 	if (X0.y == X1.y)
 	{
 		p[0] = x0;
-		p[1] = d;
+		p[1] = x0 + d;
 		return p;
 	}
-	cout << "**" << endl;
+    
 	if (X1.y > X0.y)
 	{
 		d *= -1;
-		X1.x = d;
+		X1.x = x0 + d;
 		X1.fit_fun();
 
 		if (X1.y >= X0.y)
 		{
-			p[0] = d;
-			p[1] = -d;
+			p[0] = x0 + d;
+			p[1] = x0 - d;
 			return p;
 		}
 	}
-	cout << "przed" << endl;
-	solution X2(x0);
+    
+    solution X2;
 	int i = 1;
-	while (X2.y >= X1.y)
+	while (true)
 	{
-		cout << "cos" << endl;
-		X2.x = d * pow(alfa, i);
+		X2.x = d * pow(alfa, i) + x0;
 		X2.fit_fun();
 
-		if (i > Nmax)
+        if (X2.y >= X1.y || solution::f_calls > Nmax)
 			break;
 
 		X0 = X1;
 		X1 = X2;
 		++i;
 	}
-	p[0] = X0.x(0, 0);
-	p[1] = X2.x(0, 0);
+    
+    
+    if(d > 0){
+        p[0] = X0.x(0, 0);
+        p[1] = X2.x(0, 0);
+    }
+    else{
+        p[0] = X2.x(0, 0);
+        p[1] = X0.x(0, 0);
+    }
 
 	return p;
-	//double *p = new double[2];
-	//solution X0(x0), X1(x0 + d);
-	//double x1 = x0 + d;
-	//X0.fit_fun();
-	//X1.fit_fun();
- //   
- //   if (X0.y == X1.y)
-	//{
-	//	p[0] = x0;
-	//	p[1] = x0 + d;
-	//	cout << "r1"<<endl;
-	//	return p;
-	//}
- //   if (X1.y > X0.y)
-	//{
-	//	d *= -1;
-	//	X1.x = x0 + d;
-	//	x1 *= -1;
-	//	X1.fit_fun();
- //       
-	//	if (X1.y >= X0.y)
-	//	{
-	//		p[0] = X1.x(0,0);
-	//		p[1] = -X1.x(0,0);
-	//		cout << "r2"<<endl;
-	//		return p;
-	//	}
-	//}
- //   
-	//solution X2(-x1);
-	//int i = 1;
-	//while (X1.y <= X2.y)
-	//{
-	//	cout << "while" << endl;
-	//	X2.x = (x1) * pow(alfa, i);
-	//	X2.fit_fun();
-	//	if ( i>Nmax )
-	//		break;
-	//	X0 = X1 ;
-	//	X1 = X2 ;
-	//	++i;
-	//}
-	//if (X2.x > X0.x) {
-	//	p[0] = X0.x(0, 0);
-	//	p[1] = X2.x(0, 0);
-	//}
-	//else {
-	//	p[0] = X2.x(0, 0);
-	//	p[1] = X0.x(0, 0);
-	//}
-	//return p;
 }
 
 solution fib(double a, double b, double epsilon, matrix O)
@@ -166,21 +122,21 @@ solution lag(double a, double b, double epsilon, double gamma, int Nmax, matrix 
 		{
 			if (D.y < C.y)
 			{
-				B.x = C.x;
-				C.x = D.x;
+				B = C;
+				C = D;
 			}
 			else
-				A.x = D.x;
+				A = D;
 		}
 		else if (C.x < D.x && D.x < B.x)
 		{
 			if (D.y < C.y)
 			{
-				A.x = C.x;
-				C.x = D.x;
+				A = C;
+				C = D;
 			}
 			else
-				B.x = D.x;
+				B = D;
 		}
 		else
 		{

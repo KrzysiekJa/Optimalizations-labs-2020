@@ -32,26 +32,25 @@ int main()
     
     #endif
     #if LAB_NO == 2
-		double x0, d, epsilon,gamma, alfa;
-		int Nmax;
+		double x0 = -10., d =  1.9, epsilon, gamma, alfa;
+		int Nmax = 100;;
 		random_device r;
 		
-		d = 2;
 		epsilon = 0.01;
-		gamma = 0.0001;
-		alfa = 2;      //dowolna wartosc >1
-		Nmax = 1000;
+		gamma   = 0.0001;
+		alfa    = 2;      //dowolna wartosc > 1
 
-		/*double* p = expansion(-10., 1.9, 2., 100);
+        
+        double* p = expansion(x0,d, alfa, Nmax);
 		cout << p[0] << endl;
-		cout << p[1] << endl;*/
+		cout << p[1] << endl;
 
 		solution::clear_calls();
-		solution x_fib = fib(-5., 2., epsilon);
+		solution x_fib = fib(p[0], p[1], epsilon);
 		cout << x_fib << endl;
 
 		solution::clear_calls();
-		solution x_lag = lag(-5., 2., epsilon, gamma, Nmax);
+		solution x_lag = lag(p[0], p[1], epsilon, gamma, Nmax);
 		cout << x_lag << endl;
 
 		/*ofstream E("..//expansion.csv");
