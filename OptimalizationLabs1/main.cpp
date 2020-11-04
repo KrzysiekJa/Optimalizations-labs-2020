@@ -32,6 +32,7 @@ int main()
     
     #endif
     #if LAB_NO == 2
+
 		double x0 = -10., d = 2., epsilon, gamma, alfa;
 		int Nmax = 100;;
 		random_device r;
