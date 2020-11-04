@@ -56,19 +56,29 @@ void solution::fit_fun(matrix O)
 {
 #if LAB_NO == 2
 	#if LAB_PART == 1
-    //y = -cos(0.1* x(0,0)) * exp(-pow(0.1* x(0, 0) - 2*M_PI, 2))  +  0.002 * pow(0.1* x(0, 0),2);
+    y = -cos(0.1* x(0,0)) * exp(-pow(0.1* x(0, 0) - 2*M_PI, 2))  +  0.002 * pow(0.1* x(0, 0),2);
 	//y = x(0, 0) + (1 / (x(0, 0) * x(0, 0)));
 	//y = (x(0, 0) - 1) * (x(0, 0) - 2);
 	//y = pow(x(0, 0), 4) + pow(x(0, 0), 3) - pow(x(0, 0), 2) + 2 * x(0, 0) - 6;
 	//y = pow(x(0), 2) + x(0, 0) + 5;
-	y = pow(x(0, 0), 2);
+	//y = pow(x(0, 0), 2);
 
 	#endif
 
 	#if LAB_PART == 2
 	matrix Y0(new double[3]{ 5,1,10 }, 3); //dVa, dVb, dTb
-	matrix *Y = solve_ode(0, 1, 1000, Y0, x); //x=DA
+	matrix* Y = solve_ode(0, 1, 1000, Y0, x); //x=DA
+
 	//szukamy max z Y[1][3]
+	double max=0;
+	for (int i = 0; i < 1000; i++) {
+		cout << Y[1](i, 0) << ", " << Y[1](i, 1) << ", " << Y[1](i, 2) << endl;
+		if (max < Y[1](i, 2)) {
+			max = Y[1](i, 2);
+		}
+	}
+	//cout << max<<endl;
+	y = abs(50-max);
 
   
 	#endif
