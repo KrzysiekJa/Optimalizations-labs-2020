@@ -1,5 +1,5 @@
 #include "opt_alg.h"
-
+#include<fstream>
 
 #if LAB_NO>1
 double *expansion(double x0, double d, double alfa, int Nmax, matrix O)
@@ -61,6 +61,7 @@ double *expansion(double x0, double d, double alfa, int Nmax, matrix O)
 
 solution fib(double a, double b, double epsilon, matrix O)
 {
+	ofstream plik("..//fib(-100,100).csv");
 	int n = 100;
 	double s =( b - a) / epsilon;
 	int k_i;
@@ -90,16 +91,19 @@ solution fib(double a, double b, double epsilon, matrix O)
 		D.x = A.x+B.x-C.x ;
 		C.fit_fun();
 		D.fit_fun();
-		//cout << A.x << " " << B.x << " " << C.x << " " << D.x << endl;
-		////modyfikacja wypisujaca wartosci w kolejnych iteracjach
-		//cout << C.x << endl;
+		plik << B.x - A.x<<endl;
 	}
+	plik.close();
 	return C;
 }
 
 solution lag(double a, double b, double epsilon, double gamma, int Nmax, matrix O)
 {
 	solution A(a), B(b), C(0.), D(0.), dD(0.);
+
+	ofstream plik("..//lag(-100,100).csv");
+	plik << B.x - A.x << endl;
+
 	C.x = (a + b) / 2;
 	A.fit_fun();
 	B.fit_fun();
@@ -118,6 +122,7 @@ solution lag(double a, double b, double epsilon, double gamma, int Nmax, matrix 
 		D.x = (l / m) / 2;
 		D.fit_fun();
 
+		plik << D.x-A.x << endl;
 		if (A.x < D.x && D.x < C.x)
 		{
 			if (D.y < C.y)
@@ -144,8 +149,12 @@ solution lag(double a, double b, double epsilon, double gamma, int Nmax, matrix 
 			C.y = NAN;
 			return C;
 		}
-		if ((B.x - A.x < epsilon) || (abs(D.x(0, 0) - dD.x(0, 0)) <= gamma))
+		
+		if ((B.x - A.x < epsilon) || (abs(D.x(0, 0) - dD.x(0, 0)) <= gamma)) {
+			plik.close();
 			return C;
+		}
+		
 		dD.x = D.x;
 	}
 }

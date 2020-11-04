@@ -57,7 +57,7 @@ matrix diff(double t, const matrix &Y, matrix P)
 	
 	dY(0) = -FAout;
 	dY(1) = FAout + Fin - FBout;
-	//dY(2)=   //dTb, z konspektu
+	dY(2) = (FAout +Fin) / dY(1) * (Tin - TA); //do poprawy
 	return dY;
 #else
 	matrix dY;
