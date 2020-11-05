@@ -49,7 +49,7 @@ matrix diff(double t, const matrix &Y, matrix P)
 #endif
 #if LAB_NO ==2
 	matrix dY(Y);
-	double a=0.98, b=0.63, g=9.81, PA=1, PB=1, DB= 0.00365665, Fin = 0.01, Tin=10, TA=90; //podane w konspekcie
+	double a=0.98, b=0.63, g=9.81, PA=1, PB=1, DB= 0.00365665, Fin = 0.01, Tin=10, TA=90, TB =10; //podane w konspekcie
 	double DA = P(0); //P[1][1]
 
 	double FAout = Y(0) > 0 ? a * b * DA * sqrt(2 * g * Y(0) / PA) : 0;
@@ -57,7 +57,11 @@ matrix diff(double t, const matrix &Y, matrix P)
 	
 	dY(0) = -FAout;
 	dY(1) = FAout + Fin - FBout;
-	dY(2) = (FAout +Fin) / dY(1) * (Tin - TA); //do poprawy
+
+	double T1 = Y(2) > 0 ? Fin / Y(1) * (Tin - Y(2)) : 0;
+	double T2 = Y(2) > 0 ? FAout / Y(1) * (TA - Y(2)) : 0;
+	dY(2) = T1 + T2; 
+
 	return dY;
 #else
 	matrix dY;

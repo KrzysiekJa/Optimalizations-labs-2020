@@ -32,30 +32,16 @@ int main()
     
     #endif
     #if LAB_NO == 2
-
 		double x0 = -10., d = 2., epsilon, gamma, alfa;
 		int Nmax = 100;;
 		random_device r;
 
-		epsilon = 0.01;
-		gamma = 0.0001;
+		epsilon = 0.00001;
+		gamma = 0.0000001;
 		alfa = 20;      //dowolna wartosc > 1
 	#if LAB_PART == 1
 		
-    
-  //      double* p = expansion(x0,d, alfa, Nmax);
-		//cout << p[0] << endl;
-		//cout << p[1] << endl;
-
-		//solution::clear_calls();
-		//solution x_fib = fib(p[0], p[1], epsilon);
-		//cout << x_fib << endl;
-
-		//solution::clear_calls();
-		//solution x_lag = lag(p[0], p[1], epsilon, gamma, Nmax);
-		//cout << x_lag << endl;
-		
-	/*	ofstream E("..//expansion.csv");
+		ofstream E("..//expansion.csv");
 		ofstream F("..//fibonacci.csv");
 		ofstream L("..//lagrange.csv");
 
@@ -84,27 +70,35 @@ int main()
 			solution x_lag = lag(temp_0[i], temp_1[i], epsilon, gamma, Nmax);
 			L << x_lag.x  << x_lag.y  << solution::f_calls << endl;
 		}
-		L.close(); */
+		L.close(); 
 
 
 		////pojedyncze obliczenie dla (-100,100)
-		//solution::clear_calls();
-		//solution x_fib = fib(-100, 100, epsilon);
-		//cout << x_fib << endl;
+		solution::clear_calls();
+		solution x_fib = fib(-100, 100, epsilon);
+		cout << x_fib << endl;
 
-		//solution::clear_calls();
-		//solution x_lag = lag(-100, 100, epsilon, gamma, Nmax);
-		//cout << x_lag << endl;
+		solution::clear_calls();
+		solution x_lag = lag(-100, 100, epsilon, gamma, Nmax);
+		cout << x_lag << endl;
 
 		
 	#endif
 		#if LAB_PART == 2
-		
+		/*
+		cout << "Fibonacci" << endl;
 		solution::clear_calls();
-		solution x_fib = fib(0.0001, 0.01, epsilon);
-		cout << x_fib << endl;
+		solution x_fib = fib(0.001, 0.01, epsilon);
 
-		//fib i lagrange od 0.0001 do 0.01
+		cout << "Lagrange" << endl;
+		solution::clear_calls();
+		solution x_lag = lag(0.001, 0.01, epsilon,gamma,Nmax);
+
+		cout << x_fib << endl;
+		cout << x_lag << endl;*/
+
+		//solution x_fib = fib(0.00241337, 0.00241337, epsilon);
+		solution x_lag = lag(0.00241337, 0.00241337, epsilon, gamma, Nmax);
     #endif
 #endif
 	}
