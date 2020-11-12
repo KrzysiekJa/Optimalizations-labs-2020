@@ -196,13 +196,13 @@ solution HJ_trial(solution XB, double s, matrix O)
 	solution X;
 	for (int i = 0; i < n[0]; ++i)
 	{
-		X.x = XB.x + s * j;
+		X.x = XB.x + s * i;
 		X.fit_fun();
 		if (X.y < XB.y)
 			XB = X;
 		else
 		{
-			X.x = XB.x - s * j;
+			X.x = XB.x - s * i;
 			X.fit_fun();
 			if (X.y < XB.y)
 				XB = X ;
@@ -218,12 +218,15 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 	solution X, Xt;
 	X.x = x0;
 	X.fit_fun();
+    
+    
 	while (true)
 	{
 		for (int i = 0; i < n[0]; ++i)
 		{
 			Xt.x = X.x + s(i) * D; 
 			Xt.fit_fun();
+            
 			if (Xt.y < X.y)
 			{
 				X = Xt;
@@ -236,6 +239,7 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 				s(i) *= -beta ;
 			}
 		}
+        
 		bool change = true;
 		for (int i = 0; i < n[0]; ++i)
 			if (p == 0 || l == 0)
@@ -249,29 +253,32 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 			for (int i = 0; i < n[0]; ++i)
 				for (int j = 0; j <= i; ++j)
 					Q(i, j) = l(i);
-			Q = ? ;
-			v = ? ;
+			Q = D * Q;
+            v = D[0];
 			D = set_col(D, v, 0);
 			for (int i = 1; i < n[0]; ++i)
 			{
 				matrix temp(n[0], 1);
 				for (int j = 0; j < i; ++j)
-					temp = ? ;
-				v = ? ;
+					temp = D(j,i);
+				v = temp;
 				D = set_col(D, v, i);
 			}
 			s = s0;
 			l = 0;
-			p = 0 ;
+			p = 0;
 		}
+        
 		double max_s = abs(s(0));
 		for (int i = 1; i < n[0]; ++i)
 			if (max_s < abs(s(i)))
 				max_s = abs(s(i));
+        
 		if (solution::f_calls > Nmax)
 			return X;
 	}
 }
+
 #endif
 #if LAB_NO>3
 solution pen(matrix x0, double c0, double dc, double epsilon, int Nmax, matrix O)
