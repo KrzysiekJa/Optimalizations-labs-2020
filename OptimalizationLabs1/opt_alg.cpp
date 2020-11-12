@@ -1,22 +1,22 @@
 #include "opt_alg.h"
+#include "matrix.cpp"
 #include<fstream>
 
 #if LAB_NO>1
-double *expansion(double x0, double d, double alfa, int Nmax, matrix O)
+double* expansion(double x0, double d, double alfa, int Nmax, matrix O)
 {
 	double* p = new double[2];
 	solution X0(x0), X1(x0 + d);
 	X0.fit_fun();
 	X1.fit_fun();
 
-    
 	if (X0.y == X1.y)
 	{
 		p[0] = x0;
 		p[1] = x0 + d;
 		return p;
 	}
-    
+
 	if (X1.y > X0.y)
 	{
 		d *= -1;
@@ -30,31 +30,30 @@ double *expansion(double x0, double d, double alfa, int Nmax, matrix O)
 			return p;
 		}
 	}
-    
-    solution X2;
+
+	solution X2;
 	int i = 1;
 	while (true)
 	{
 		X2.x = d * pow(alfa, i) + x0;
 		X2.fit_fun();
 
-        if (X2.y >= X1.y || solution::f_calls > Nmax)
+		if (X2.y >= X1.y || solution::f_calls > Nmax)
 			break;
 
 		X0 = X1;
 		X1 = X2;
 		++i;
 	}
-    
-    
-    if(d > 0){
-        p[0] = X0.x(0, 0);
-        p[1] = X2.x(0, 0);
-    }
-    else{
-        p[0] = X2.x(0, 0);
-        p[1] = X0.x(0, 0);
-    }
+
+	if (d > 0) {
+		p[0] = X0.x(0, 0);
+		p[1] = X2.x(0, 0);
+	}
+	else {
+		p[0] = X2.x(0, 0);
+		p[1] = X0.x(0, 0);
+	}
 
 	return p;
 }
@@ -63,9 +62,9 @@ solution fib(double a, double b, double epsilon, matrix O)
 {
 	ofstream plik("..//fib(-100,100).csv");
 	int n = 100;
-	double s =( b - a) / epsilon;
+	double s = (b - a) / epsilon;
 	int k_i;
-	int *F = new int[n] {1, 1};
+	int* F = new int[n] {1, 1};
 	for (int i = 2; i < n; ++i) {
 		F[i] = F[i - 2] + F[i - 1];
 		if (F[i] > s) {
@@ -74,12 +73,12 @@ solution fib(double a, double b, double epsilon, matrix O)
 		}
 	}
 
-	solution A(a ), B(b ), C(0.), D(0.);
-	C.x = matrix(b-((double)F[k_i-1]/F[k_i])*(b-a));
-	D.x = matrix(a+b)-C.x ;
+	solution A(a), B(b), C(0.), D(0.);
+	C.x = matrix(b - ((double)F[k_i - 1] / F[k_i]) * (b - a));
+	D.x = matrix(a + b) - C.x;
 	C.fit_fun();
 	D.fit_fun();
-	for (int i = 0; i <= k_i+1 - 3; ++i)
+	for (int i = 0; i <= k_i + 1 - 3; ++i)
 	{
 		if (C.y < D.y) {
 			B.x = D.x;
@@ -87,11 +86,11 @@ solution fib(double a, double b, double epsilon, matrix O)
 		else {
 			A.x = C.x;
 		}
-		C.x = B.x - ((double)F[k_i-i-2]/F[k_i-i-1])*(B.x-A.x) ;
-		D.x = A.x+B.x-C.x ;
+		C.x = B.x - ((double)F[k_i - i - 2] / F[k_i - i - 1]) * (B.x - A.x);
+		D.x = A.x + B.x - C.x;
 		C.fit_fun();
 		D.fit_fun();
-		plik << B.x - A.x<<endl;
+		plik << B.x - A.x << endl;
 	}
 	plik.close();
 	return C;
@@ -122,7 +121,7 @@ solution lag(double a, double b, double epsilon, double gamma, int Nmax, matrix 
 		D.x = (l / m) / 2;
 		D.fit_fun();
 
-		plik << D.x-A.x << endl;
+		plik << D.x - A.x << endl;
 		if (A.x < D.x && D.x < C.x)
 		{
 			if (D.y < C.y)
@@ -149,12 +148,12 @@ solution lag(double a, double b, double epsilon, double gamma, int Nmax, matrix 
 			C.y = NAN;
 			return C;
 		}
-		
+
 		if ((B.x - A.x < epsilon) || (abs(D.x(0, 0) - dD.x(0, 0)) <= gamma)) {
 			plik.close();
 			return C;
 		}
-		
+
 		dD.x = D.x;
 	}
 }
@@ -192,21 +191,21 @@ solution HJ(matrix x0, double s, double alfa, double epsilon, int Nmax, matrix O
 
 solution HJ_trial(solution XB, double s, matrix O)
 {
-	int *n = get_size(XB.x);
+	int* n = get_size(XB.x);
 	matrix D = ident_mat(n[0]);
 	solution X;
 	for (int i = 0; i < n[0]; ++i)
 	{
-		X.x = ? ;
+		X.x = XB.x + s * j;
 		X.fit_fun();
-		if (? )
-			XB = ? ;
+		if (X.y < XB.y)
+			XB = X;
 		else
 		{
-			X.x = ? ;
+			X.x = XB.x - s * j;
 			X.fit_fun();
-			if (? )
-				XB = ? ;
+			if (X.y < XB.y)
+				XB = X ;
 		}
 	}
 	return XB;
@@ -293,10 +292,10 @@ solution pen(matrix x0, double c0, double dc, double epsilon, int Nmax, matrix O
 
 solution sym_NM(matrix x0, double s, double alfa, double beta, double gama, double delta, double epsilon, int Nmax, matrix O)
 {
-	int *n = get_size(x0);
+	int* n = get_size(x0);
 	matrix D = ident_mat(n[0]);
 	int N = n[0] + 1;
-	solution *S = new solution[N];
+	solution* S = new solution[N];
 	S[0].x = ? ;
 	S[0].fit_fun(O);
 	for (int i = 1; i < N; ++i)
@@ -363,7 +362,7 @@ solution sym_NM(matrix x0, double s, double alfa, double beta, double gama, doub
 #if LAB_NO>4
 solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 {
-	int *n = get_size(x0);
+	int* n = get_size(x0);
 	solution X, X1;
 	X.x = x0;
 	matrix d(n[0], 1), P(n[0], 2), limits = O;
@@ -396,7 +395,7 @@ solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 
 solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 {
-	int *n = get_size(x0);
+	int* n = get_size(x0);
 	solution X, X1;
 	X.x = x0;
 	matrix d(n[0], 1), P(n[0], 2), limits = O;
@@ -432,7 +431,7 @@ solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 
 solution Newton(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 {
-	int *n = get_size(x0);
+	int* n = get_size(x0);
 	solution X, X1;
 	X.x = x0;
 	matrix d(n[0], 1), P(n[0], 2), limits = O;
@@ -502,7 +501,7 @@ solution golden(double a, double b, double epsilon, int Nmax, matrix O)
 
 double compute_b(matrix x, matrix d, matrix limits)
 {
-	int *n = get_size(x);
+	int* n = get_size(x);
 	double b = 1e9, bi;
 	for (int i = 0; i < n[0]; ++i)
 	{
@@ -512,8 +511,8 @@ double compute_b(matrix x, matrix d, matrix limits)
 			bi = ? ;
 		else
 			bi = ? ;
-			if (? )
-				b = bi;
+		if (? )
+			b = bi;
 	}
 	return b;
 }
@@ -521,17 +520,17 @@ double compute_b(matrix x, matrix d, matrix limits)
 #if LAB_NO>5
 solution Powell(matrix x0, double epsilon, int Nmax, matrix O)
 {
-	int *n = get_size(x0);
+	int* n = get_size(x0);
 	matrix D = ident_mat(n[0]), A(n[0], 3), limits(n[0], 2);
 	limits = set_col(limits, O[0], 0);
 	limits = set_col(limits, O[1], 1);
 	A(0, 2) = O(0, 2);
 	solution X, P, h;
 	X.x = x0;
-	double *ab;
+	double* ab;
 	while (true)
 	{
-		P = ?;
+		P = ? ;
 		for (int i = 0; i < ? ; ++i)
 		{
 			A = set_col(A, P.x, 0);
@@ -556,10 +555,10 @@ solution Powell(matrix x0, double epsilon, int Nmax, matrix O)
 	}
 }
 
-double *compute_ab(matrix x, matrix d, matrix limits)
+double* compute_ab(matrix x, matrix d, matrix limits)
 {
-	int *n = get_size(x);
-	double *ab = new double[2]{ -1e9,1e9 };
+	int* n = get_size(x);
+	double* ab = new double[2]{ -1e9,1e9 };
 	double ai, bi;
 	for (int i = 0; i < n[0]; ++i)
 	{
@@ -590,8 +589,8 @@ double *compute_ab(matrix x, matrix d, matrix limits)
 solution EA(int N, matrix limits, double epsilon, int Nmax, matrix O)
 {
 	int mi = 20, lambda = 40;
-	solution *P = new solution[mi + lambda];
-	solution *Pm = new solution[mi];
+	solution* P = new solution[mi + lambda];
+	solution* Pm = new solution[mi];
 	random_device rd;
 	default_random_engine gen;
 	gen.seed(static_cast<unsigned int>(chrono::system_clock::now().time_since_epoch().count()));
@@ -660,7 +659,7 @@ solution EA(int N, matrix limits, double epsilon, int Nmax, matrix O)
 		{
 			j_min = 0;
 			for (int j = 1; j < ? ; ++j)
-				if (P[j_min].y>P[j].y)
+				if (P[j_min].y > P[j].y)
 					j_min = j;
 			Pm[i] = P[j_min];
 			P[j_min].y = 1e10;
