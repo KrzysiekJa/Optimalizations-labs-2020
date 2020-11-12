@@ -163,29 +163,29 @@ solution lag(double a, double b, double epsilon, double gamma, int Nmax, matrix 
 solution HJ(matrix x0, double s, double alfa, double epsilon, int Nmax, matrix O)
 {
 	solution XB, XB_old, X;
-	XB.x = ? ;
+	XB.x = x0;
 	XB.fit_fun();
 	while (true)
 	{
-		X = HJ_trial(? , ? );
-		if (? )
+		X = HJ_trial(XB, s);
+		if (X.y < XB.y)
 		{
 			while (true)
 			{
-				XB_old = ? ;
-				XB = ? ;
-				X.x = ? ;
+				XB_old = XB;
+				XB = X;
+				X.x = 2 * XB.x - XB_old.x;
 				X.fit_fun();
-				X = HJ_trial(? , ? );
-				if (? )
+				X = HJ_trial(X, s);
+				if (X.y >= XB.y)
 					break;
-				if (? )
+				if (solution::f_calls > Nmax)
 					return XB;
 			}
 		}
 		else
-			s *= ? ;
-		if (? )
+			s *= alfa;
+		if (s < epsilon || solution::f_calls > Nmax)
 			return XB;
 	}
 }
@@ -214,10 +214,10 @@ solution HJ_trial(solution XB, double s, matrix O)
 
 solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, int Nmax, matrix O)
 {
-	int *n = get_size(x0);
+	int* n = get_size(x0);
 	matrix l(n[0], 1), p(n[0], 1), s(s0), D = ident_mat(n[0]);
 	solution X, Xt;
-	X.x = ? ;
+	X.x = x0;
 	X.fit_fun();
 	while (true)
 	{
@@ -269,7 +269,7 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 		for (int i = 1; i < n[0]; ++i)
 			if (max_s < abs(s(i)))
 				max_s = abs(s(i));
-		if (? )
+		if (solution::f_calls > Nmax)
 			return X;
 	}
 }
