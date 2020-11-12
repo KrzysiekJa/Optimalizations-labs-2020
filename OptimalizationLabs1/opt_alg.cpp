@@ -223,23 +223,23 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 	{
 		for (int i = 0; i < n[0]; ++i)
 		{
-			Xt.x = ? ;
+			Xt.x = X.x + s(i) * D; 
 			Xt.fit_fun();
-			if (? )
+			if (Xt.y < X.y)
 			{
-				X = ? ;
-				l(i) += ? ;
-				s(i) *= ? ;
+				X = Xt;
+				l(i) += s(i);
+				s(i) *= alfa;
 			}
 			else
 			{
-				? ;
-				s(i) *= ? ;
+				p(i) += 1 ;
+				s(i) *= -beta ;
 			}
 		}
 		bool change = true;
 		for (int i = 0; i < n[0]; ++i)
-			if (? || ? )
+			if (p == 0 || l == 0)
 			{
 				change = false;
 				break;
@@ -261,9 +261,9 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 				v = ? ;
 				D = set_col(D, v, i);
 			}
-			s = ? ;
-			l = ? ;
-			p = ? ;
+			s = s0;
+			l = 0;
+			p = 0 ;
 		}
 		double max_s = abs(s(0));
 		for (int i = 1; i < n[0]; ++i)
