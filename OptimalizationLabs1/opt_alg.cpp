@@ -260,8 +260,8 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 			{
 				matrix temp(n[0], 1);
 				for (int j = 0; j < i; ++j)
-					temp = D(j,i);
-				v = temp;
+					temp[j] = Q(j,i) * D(j,j) * D(j,j);
+				v = Q[i] - temp;
 				D = set_col(D, v, i);
 			}
 			s = s0;
