@@ -230,7 +230,7 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 	X.fit_fun();
     
     
-	while (true)
+	while(true)
 	{
 		for (int i = 0; i < n[0]; ++i)
 		{
