@@ -18,7 +18,7 @@ solution::solution(double L)
 	//y = nullptr;
 }
 
-solution::solution(const matrix &A)
+solution::solution(const matrix& A)
 {
 	x = A;
 	//g = nullptr;
@@ -26,7 +26,7 @@ solution::solution(const matrix &A)
 	//y = nullptr;
 }
 
-solution::solution(double *A, int n)
+solution::solution(double* A, int n)
 {
 	x = matrix(A, n);
 	//g = nullptr;
@@ -41,7 +41,7 @@ void solution::clear_calls()
 	H_calls = 0;
 }
 
-ostream &operator<<(ostream &S, const solution &A)
+ostream& operator<<(ostream& S, const solution& A)
 {
 	S << "x = " << A.x << endl;
 	S << "y = " << A.y << endl;
@@ -56,28 +56,33 @@ ostream &operator<<(ostream &S, const solution &A)
 void solution::fit_fun(matrix O)
 {
 #if LAB_NO == 2
-	#if LAB_PART == 1
-    y = -cos(0.1* x(0,0)) * exp(-pow(0.1* x(0, 0) - 2*M_PI, 2))  +  0.002 * pow(0.1* x(0, 0),2);
+#if LAB_PART == 1
+	y = -cos(0.1 * x(0, 0)) * exp(-pow(0.1 * x(0, 0) - 2 * M_PI, 2)) + 0.002 * pow(0.1 * x(0, 0), 2);
 
-	#endif
+#endif
 
-	#if LAB_PART == 2
+#if LAB_PART == 2
 	matrix Y0(new double[3]{ 5,1,10 }, 3); //dVa, dVb, dTb
 	matrix* Y = solve_ode(0, 1, 1000, Y0, x); //x=DA
 
 	//szukamy max z Y[1][3]
 	ofstream S("..//lag_sym.csv");
-	double max=0;
+	double max = 0;
 	for (int i = 0; i < 1000; i++) {
-		S<< Y[1](i, 0) << ", " << Y[1](i, 1) << ", " << Y[1](i, 2) << endl;
+		S << Y[1](i, 0) << ", " << Y[1](i, 1) << ", " << Y[1](i, 2) << endl;
 		if (max < Y[1](i, 2)) {
 			max = Y[1](i, 2);
 		}
 	}
 	S.close();
-	y = abs(50-max);
-  
-	#endif
+	y = abs(50 - max);
+
+#endif
+#endif
+#if LAB_NO == 3
+#if LAB_PART == 1
+	y = pow(x(0), 2) + pow(x(1), 2);
+#endif
 #endif
 	++f_calls;
 }

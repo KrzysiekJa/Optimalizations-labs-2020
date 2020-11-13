@@ -1,5 +1,5 @@
 #include "opt_alg.h"
-#include "matrix.cpp"
+
 #include<fstream>
 
 #if LAB_NO>1
@@ -173,7 +173,7 @@ solution HJ(matrix x0, double s, double alfa, double epsilon, int Nmax, matrix O
 			{
 				XB_old = XB;
 				XB = X;
-				X.x = 2 * XB.x - XB_old.x;
+				X.x = 2.0 * XB.x - XB_old.x;
 				X.fit_fun();
 				X = HJ_trial(X, s);
 				if (X.y >= XB.y)
@@ -192,20 +192,24 @@ solution HJ(matrix x0, double s, double alfa, double epsilon, int Nmax, matrix O
 solution HJ_trial(solution XB, double s, matrix O)
 {
 	int* n = get_size(XB.x);
-	matrix D = ident_mat(n[0]);
+	//matrix D = ident_mat(n[0]);
+	matrix D(n[0], n[0]);
+	for (int i = 0; i < n[0]; i++) {
+		D(i, i) = 1;
+	}
 	solution X;
 	for (int i = 0; i < n[0]; ++i)
 	{
-		X.x = XB.x + s * i;
+		X.x = XB.x + s * D[i];
 		X.fit_fun();
 		if (X.y < XB.y)
 			XB = X;
 		else
 		{
-			X.x = XB.x - s * i;
+			X.x = XB.x - s * D[i];
 			X.fit_fun();
 			if (X.y < XB.y)
-				XB = X ;
+				XB = X;
 		}
 	}
 	return XB;
@@ -214,7 +218,13 @@ solution HJ_trial(solution XB, double s, matrix O)
 solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, int Nmax, matrix O)
 {
 	int* n = get_size(x0);
-	matrix l(n[0], 1), p(n[0], 1), s(s0), D = ident_mat(n[0]);
+	matrix l(n[0], 1), p(n[0], 1), s(s0);
+
+	matrix D(n[0], n[0]);
+	for (int i = 0; i < n[0]; i++) {
+		D(i, i) = 1;
+	}
+
 	solution X, Xt;
 	X.x = x0;
 	X.fit_fun();
@@ -224,7 +234,7 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 	{
 		for (int i = 0; i < n[0]; ++i)
 		{
-			Xt.x = X.x + s(i) * D; 
+			Xt.x = X.x + s(i) * D[i];
 			Xt.fit_fun();
             
 			if (Xt.y < X.y)
@@ -235,14 +245,14 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 			}
 			else
 			{
-				p(i) += 1 ;
-				s(i) *= -beta ;
+				p(i) += 1;
+				s(i) *= -beta;
 			}
 		}
         
 		bool change = true;
 		for (int i = 0; i < n[0]; ++i)
-			if (p == 0 || l == 0)
+			if (p(i) == 0 || l(i) == 0)
 			{
 				change = false;
 				break;
@@ -253,28 +263,31 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 			for (int i = 0; i < n[0]; ++i)
 				for (int j = 0; j <= i; ++j)
 					Q(i, j) = l(i);
+      
 			Q = D * Q;
-            v = D[0];
+			v = Q[0];
 			D = set_col(D, v, 0);
+      
 			for (int i = 1; i < n[0]; ++i)
 			{
 				matrix temp(n[0], 1);
 				for (int j = 0; j < i; ++j)
-					temp[j] = Q(j,i) * D(j,j) * D(j,j);
+					temp = temp + (trans(Q[i]) * D[j]) * D[j];
+        
 				v = Q[i] - temp;
 				D = set_col(D, v, i);
 			}
 			s = s0;
-			l = 0;
-			p = 0;
+			l = matrix(n[0], 1);
+			p = matrix(n[0], 1);
 		}
         
 		double max_s = abs(s(0));
 		for (int i = 1; i < n[0]; ++i)
 			if (max_s < abs(s(i)))
 				max_s = abs(s(i));
-        
-		if (solution::f_calls > Nmax)
+
+		if (solution::f_calls > Nmax || max_s < epsilon)
 			return X;
 	}
 }
