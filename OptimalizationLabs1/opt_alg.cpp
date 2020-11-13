@@ -228,12 +228,15 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 	solution X, Xt;
 	X.x = x0;
 	X.fit_fun();
+    
+    
 	while (true)
 	{
 		for (int i = 0; i < n[0]; ++i)
 		{
 			Xt.x = X.x + s(i) * D[i];
 			Xt.fit_fun();
+            
 			if (Xt.y < X.y)
 			{
 				X = Xt;
@@ -246,6 +249,7 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 				s(i) *= -beta;
 			}
 		}
+        
 		bool change = true;
 		for (int i = 0; i < n[0]; ++i)
 			if (p(i) == 0 || l(i) == 0)
@@ -259,14 +263,17 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 			for (int i = 0; i < n[0]; ++i)
 				for (int j = 0; j <= i; ++j)
 					Q(i, j) = l(i);
+      
 			Q = D * Q;
-			v = Q[0]; //
+			v = Q[0];
 			D = set_col(D, v, 0);
+      
 			for (int i = 1; i < n[0]; ++i)
 			{
 				matrix temp(n[0], 1);
 				for (int j = 0; j < i; ++j)
 					temp = temp + (trans(Q[i]) * D[j]) * D[j];
+        
 				v = Q[i] - temp;
 				D = set_col(D, v, i);
 			}
@@ -274,14 +281,17 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 			l = matrix(n[0], 1);
 			p = matrix(n[0], 1);
 		}
+        
 		double max_s = abs(s(0));
 		for (int i = 1; i < n[0]; ++i)
 			if (max_s < abs(s(i)))
 				max_s = abs(s(i));
+
 		if (solution::f_calls > Nmax || max_s < epsilon)
 			return X;
 	}
 }
+
 #endif
 #if LAB_NO>3
 solution pen(matrix x0, double c0, double dc, double epsilon, int Nmax, matrix O)
