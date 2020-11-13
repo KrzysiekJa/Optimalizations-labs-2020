@@ -38,7 +38,7 @@ int main()
 		epsilon = 0.00001;
 		gamma = 0.0000001;
 		alfa = 20;      //dowolna wartosc > 1
-#if LAB_PART == 1
+    #if LAB_PART == 1
 
 		ofstream E("..//expansion.csv");
 		ofstream F("..//fibonacci.csv");
@@ -71,7 +71,7 @@ int main()
 		}
 		L.close();
 
-		////pojedyncze obliczenie dla (-100,100)
+		//pojedyncze obliczenie dla (-100,100)
 		solution::clear_calls();
 		solution x_fib = fib(-100, 100, epsilon);
 		cout << x_fib << endl;
@@ -80,8 +80,8 @@ int main()
 		solution x_lag = lag(-100, 100, epsilon, gamma, Nmax);
 		cout << x_lag << endl;
 
-#endif
-#if LAB_PART == 2
+    #endif
+    #if LAB_PART == 2
 		/*
 		cout << "Fibonacci" << endl;
 		solution::clear_calls();
@@ -92,15 +92,17 @@ int main()
 		solution x_lag = lag(0.001, 0.01, epsilon,gamma,Nmax);
 
 		cout << x_fib << endl;
-		cout << x_lag << endl;*/
+		cout << x_lag << endl;
+         */
 
 		//solution x_fib = fib(0.00241337, 0.00241337, epsilon);
 		solution x_lag = lag(0.00241337, 0.00241337, epsilon, gamma, Nmax);
-#endif
+        
+    #endif
 #endif
 
 #if LAB_NO ==3
-#if LAB_PART ==1
+    #if LAB_PART ==1
 		solution X1, X2;
 		matrix x0(new double[2]{ 1., 1. }, 2);
 		X1 = HJ(x0, 0.1, 0.2, 0.001, 1000);
@@ -109,7 +111,8 @@ int main()
 		matrix s0(new double[2]{ 0.1,0.1 }, 2);
 		X2 = Rosen(x0, s0, 5, 0.1, 0.01, 1000);
 		cout << X2 << endl;
-#endif
+        
+    #endif
 #endif
 	}
 	catch (char* EX_INFO)

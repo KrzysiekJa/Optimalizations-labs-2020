@@ -2,9 +2,11 @@
 
 #include <math.h>
 #include "solution.h"
-#include<fstream>
+#include <fstream>
 
 #define M_PI 3.14159265358979323846
+
+
 
 int solution::f_calls = 0;
 int solution::g_calls = 0;
@@ -51,38 +53,56 @@ ostream& operator<<(ostream& S, const solution& A)
 	return S;
 }
 
+
+
 //You can edit the following code
 
 void solution::fit_fun(matrix O)
 {
 #if LAB_NO == 2
-#if LAB_PART == 1
-	y = -cos(0.1 * x(0, 0)) * exp(-pow(0.1 * x(0, 0) - 2 * M_PI, 2)) + 0.002 * pow(0.1 * x(0, 0), 2);
+    #if LAB_PART == 1
+        y = -cos(0.1 * x(0, 0)) * exp(-pow(0.1 * x(0, 0) - 2 * M_PI, 2)) + 0.002 * pow(0.1 * x(0, 0), 2);
 
-#endif
+    #endif
 
-#if LAB_PART == 2
-	matrix Y0(new double[3]{ 5,1,10 }, 3); //dVa, dVb, dTb
-	matrix* Y = solve_ode(0, 1, 1000, Y0, x); //x=DA
+    #if LAB_PART == 2
+        matrix Y0(new double[3]{ 5,1,10 }, 3); //dVa, dVb, dTb
+        matrix* Y = solve_ode(0, 1, 1000, Y0, x); //x=DA
 
-	//szukamy max z Y[1][3]
-	ofstream S("..//lag_sym.csv");
-	double max = 0;
-	for (int i = 0; i < 1000; i++) {
-		S << Y[1](i, 0) << ", " << Y[1](i, 1) << ", " << Y[1](i, 2) << endl;
-		if (max < Y[1](i, 2)) {
-			max = Y[1](i, 2);
-		}
-	}
-	S.close();
-	y = abs(50 - max);
+        //szukamy max z Y[1][3]
+        ofstream S("..//lag_sym.csv");
+        double max = 0;
+        for (int i = 0; i < 1000; i++) {
+            S << Y[1](i, 0) << ", " << Y[1](i, 1) << ", " << Y[1](i, 2) << endl;
+            if (max < Y[1](i, 2)) {
+                max = Y[1](i, 2);
+            }
+        }
+        S.close();
+        y = abs(50 - max);
 
-#endif
+    #endif
 #endif
 #if LAB_NO == 3
-#if LAB_PART == 1
-	y = pow(x(0), 2) + pow(x(1), 2);
-#endif
+    #if LAB_PART == 1
+        y = pow(x(0), 2) + pow(x(1), 2);
+    
+    #endif
+    #if LAB_PART == 2
+        double a_ref = M_PI, o_ref = 0;
+        matrix Y0(2,1);
+        
+        matrix * Y = solve_ode(0, 0.1, 100, Y0);
+        int * n = get_size(Y[1]);
+        y(0) = 0;
+        
+        
+        for(int i = 0; i < n[0]; ++i){
+            y(0) = y(0) + 10 * pow(a_ref - Y[1](i,0), 2) + pow(o_ref - Y[1](i,1), 2) + pow(x(0) * (a_ref - Y[1](i,0)) + x(1) * (o_ref - Y[1](i,1)), 2);
+        }
+        y(0) = y(0) * 0.1;
+        
+    #endif
 #endif
 	++f_calls;
 }
