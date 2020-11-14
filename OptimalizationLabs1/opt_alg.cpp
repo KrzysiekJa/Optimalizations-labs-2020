@@ -1,6 +1,7 @@
 #include "opt_alg.h"
-
 #include<fstream>
+
+
 
 #if LAB_NO>1
 double* expansion(double x0, double d, double alfa, int Nmax, matrix O)
@@ -58,12 +59,13 @@ double* expansion(double x0, double d, double alfa, int Nmax, matrix O)
 	return p;
 }
 
+
 solution fib(double a, double b, double epsilon, matrix O)
 {
 	ofstream plik("..//fib(-100,100).csv");
 	int n = 100;
 	double s = (b - a) / epsilon;
-	int k_i;
+	int k_i = 0;
 	int* F = new int[n] {1, 1};
 	for (int i = 2; i < n; ++i) {
 		F[i] = F[i - 2] + F[i - 1];
@@ -95,6 +97,7 @@ solution fib(double a, double b, double epsilon, matrix O)
 	plik.close();
 	return C;
 }
+
 
 solution lag(double a, double b, double epsilon, double gamma, int Nmax, matrix O)
 {
@@ -157,6 +160,7 @@ solution lag(double a, double b, double epsilon, double gamma, int Nmax, matrix 
 		dD.x = D.x;
 	}
 }
+
 #endif
 #if LAB_NO>2
 solution HJ(matrix x0, double s, double alfa, double epsilon, int Nmax, matrix O)
@@ -189,6 +193,7 @@ solution HJ(matrix x0, double s, double alfa, double epsilon, int Nmax, matrix O
 	}
 }
 
+
 solution HJ_trial(solution XB, double s, matrix O)
 {
 	int* n = get_size(XB.x);
@@ -215,9 +220,10 @@ solution HJ_trial(solution XB, double s, matrix O)
 	return XB;
 }
 
+
 solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, int Nmax, matrix O)
 {
-	int* n = get_size(x0);
+	int * n = get_size(x0);
 	matrix l(n[0], 1), p(n[0], 1), s(s0);
 
 	matrix D(n[0], n[0]);
@@ -230,7 +236,7 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 	X.fit_fun();
     
     
-	while (true)
+	while(true)
 	{
 		for (int i = 0; i < n[0]; ++i)
 		{
@@ -257,6 +263,7 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 				change = false;
 				break;
 			}
+        
 		if (change)
 		{
 			matrix Q(n[0], n[0]), v(n[0], 1);
@@ -265,7 +272,7 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 					Q(i, j) = l(i);
       
 			Q = D * Q;
-			v = Q[0];
+			v = Q[0] / norm(Q[0]);
 			D = set_col(D, v, 0);
       
 			for (int i = 1; i < n[0]; ++i)
@@ -277,10 +284,12 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 				v = Q[i] - temp;
 				D = set_col(D, v, i);
 			}
+            
 			s = s0;
 			l = matrix(n[0], 1);
 			p = matrix(n[0], 1);
 		}
+        
         
 		double max_s = abs(s(0));
 		for (int i = 1; i < n[0]; ++i)
@@ -291,6 +300,7 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 			return X;
 	}
 }
+
 
 #endif
 #if LAB_NO>3

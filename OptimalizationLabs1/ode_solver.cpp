@@ -32,6 +32,8 @@ matrix *solve_ode(double t0, double dt, double tend, const matrix &Y0, matrix P)
 	return S;
 }
 
+
+
 //You can edit the following code
 
 matrix diff(double t, const matrix &Y, matrix P)
@@ -47,7 +49,7 @@ matrix diff(double t, const matrix &Y, matrix P)
 	return dY;
 
 #endif
-#if LAB_NO ==2
+#if LAB_NO == 2
 	matrix dY(Y);
 	double a=0.98, b=0.63, g=9.81, PA=1, PB=1, DB= 0.00365665, Fin = 0.01, Tin=10, TA=90, TB =10; //podane w konspekcie
 	double DA = P(0); //P[1][1]
@@ -63,8 +65,20 @@ matrix diff(double t, const matrix &Y, matrix P)
 	dY(2) = T1 + T2; 
 
 	return dY;
+#endif
+#if LAB_NO == 3
+    matrix dY(Y);
+    double mr = 1, mc = 10, l = 0.5, a_ref = M_PI, o_ref = 0, b = 0.5;
+    
+    double I = mr * pow(l, 2)/3 + mc * pow(l, 2);
+    double k1 = P(0), k2 = P(1);
+    
+    dY(0) = Y(1);
+    dY(1) = (k1 * (a_ref - Y(0)) + k2 * (o_ref - Y(1)) - b * Y(1)) /I;
+    
+    return dY;
 #else
-	matrix dY;
+	matrix dY(Y);
 	return dY;
 #endif
 }
