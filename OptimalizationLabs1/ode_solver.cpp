@@ -2,6 +2,7 @@
 
 #include "ode_solver.h"
 #include <math.h>
+#define M_PI 3.14159265358979323846
 
 matrix *solve_ode(double t0, double dt, double tend, const matrix &Y0, matrix P)
 {

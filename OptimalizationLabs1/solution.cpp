@@ -85,8 +85,8 @@ void solution::fit_fun(matrix O)
 #endif
 #if LAB_NO == 3
     #if LAB_PART == 1
-        y = pow(x(0), 2) + pow(x(1), 2);
-    
+        //y = pow(x(0), 2) + pow(x(1), 2);
+       y = pow(x(0), 2) + pow(x(1), 2) - cos(2.5 * x(0) * M_PI) - cos(2.5 * x(1) * M_PI) + 2;
     #endif
     #if LAB_PART == 2
         double a_ref = M_PI, o_ref = 0;
