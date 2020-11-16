@@ -1,8 +1,6 @@
 #include "opt_alg.h"
 #include<fstream>
 
-
-
 #if LAB_NO>1
 double* expansion(double x0, double d, double alfa, int Nmax, matrix O)
 {
@@ -59,7 +57,6 @@ double* expansion(double x0, double d, double alfa, int Nmax, matrix O)
 	return p;
 }
 
-
 solution fib(double a, double b, double epsilon, matrix O)
 {
 	ofstream plik("..//fib(-100,100).csv");
@@ -97,7 +94,6 @@ solution fib(double a, double b, double epsilon, matrix O)
 	plik.close();
 	return C;
 }
-
 
 solution lag(double a, double b, double epsilon, double gamma, int Nmax, matrix O)
 {
@@ -182,17 +178,21 @@ solution HJ(matrix x0, double s, double alfa, double epsilon, int Nmax, matrix O
 				X = HJ_trial(X, s);
 				if (X.y >= XB.y)
 					break;
-				if (solution::f_calls > Nmax)
+				if (solution::f_calls > Nmax) {
 					return XB;
+				}
 			}
 		}
 		else
 			s *= alfa;
-		if (s < epsilon || solution::f_calls > Nmax)
-			return XB;
+
+		//cout << XB.x(0) << "; " << XB.x(1) << endl;
+
+		if (s < epsilon || solution::f_calls > Nmax) {
+		return XB;
+	}
 	}
 }
-
 
 solution HJ_trial(solution XB, double s, matrix O)
 {
@@ -220,10 +220,10 @@ solution HJ_trial(solution XB, double s, matrix O)
 	return XB;
 }
 
-
 solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, int Nmax, matrix O)
 {
-	int * n = get_size(x0);
+	//ofstream Rosen_steps("..//Rosen_steps.csv");
+	int* n = get_size(x0);
 	matrix l(n[0], 1), p(n[0], 1), s(s0);
 
 	matrix D(n[0], n[0]);
@@ -234,15 +234,14 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 	solution X, Xt;
 	X.x = x0;
 	X.fit_fun();
-    
-    
-	while(true)
+
+	while (true)
 	{
 		for (int i = 0; i < n[0]; ++i)
 		{
 			Xt.x = X.x + s(i) * D[i];
 			Xt.fit_fun();
-            
+
 			if (Xt.y < X.y)
 			{
 				X = Xt;
@@ -255,7 +254,7 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 				s(i) *= -beta;
 			}
 		}
-        
+
 		bool change = true;
 		for (int i = 0; i < n[0]; ++i)
 			if (p(i) == 0 || l(i) == 0)
@@ -263,44 +262,45 @@ solution Rosen(matrix x0, matrix s0, double alfa, double beta, double epsilon, i
 				change = false;
 				break;
 			}
-        
+
 		if (change)
 		{
 			matrix Q(n[0], n[0]), v(n[0], 1);
 			for (int i = 0; i < n[0]; ++i)
 				for (int j = 0; j <= i; ++j)
 					Q(i, j) = l(i);
-      
+
 			Q = D * Q;
 			v = Q[0] / norm(Q[0]);
 			D = set_col(D, v, 0);
-      
+
 			for (int i = 1; i < n[0]; ++i)
 			{
 				matrix temp(n[0], 1);
 				for (int j = 0; j < i; ++j)
 					temp = temp + (trans(Q[i]) * D[j]) * D[j];
-        
+
 				v = Q[i] - temp;
 				D = set_col(D, v, i);
 			}
-            
+
 			s = s0;
 			l = matrix(n[0], 1);
 			p = matrix(n[0], 1);
 		}
-        
-        
+
 		double max_s = abs(s(0));
 		for (int i = 1; i < n[0]; ++i)
 			if (max_s < abs(s(i)))
 				max_s = abs(s(i));
 
-		if (solution::f_calls > Nmax || max_s < epsilon)
+		//Rosen_steps << X.x(0) << ";" << X.x(1) << endl;
+		if (solution::f_calls > Nmax || max_s < epsilon) {
+			//Rosen_steps.close();
 			return X;
+		}
 	}
 }
-
 
 #endif
 #if LAB_NO>3
