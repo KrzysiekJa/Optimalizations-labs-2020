@@ -149,7 +149,30 @@ int main()
 		//matrix s0(new double[2]{ s,s }, 2);
 		//X2 = Rosen(x0, s0, alfa_Ros, beta, epsilon, Nmax);
 		////cout << X2 << endl;
+#endif
+#if LAB_PART == 2
+		random_device r;
+		double x1, x2, s, epsilon, alfa_HJ, alfa_Ros, Nmax, beta;
+		alfa_HJ = 0.2;
+		alfa_Ros = 2;
+		epsilon = 0.001;
+		beta = 0.0001;
+		Nmax = 1000;
+		s = 0.001; //s2 = 0.005, s3 = 0.01
 
+		matrix x0(new double[2]{ 1, 1 }, 2);
+		solution g(x0);
+		g.fit_fun();
+		cout << g.y << endl<<endl;
+
+		solution::clear_calls();
+		solution solHJ = HJ(x0, s, alfa_HJ, epsilon, Nmax);
+		cout << solHJ << endl;
+
+		solution::clear_calls();
+		matrix s0(new double[2]{ s,s }, 2);
+		solution solRos = Rosen(x0, s0, alfa_Ros, beta, epsilon, Nmax);
+		cout << solRos << endl;
 #endif
 #endif
 	}
