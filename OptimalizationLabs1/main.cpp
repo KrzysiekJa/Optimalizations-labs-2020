@@ -117,7 +117,7 @@ int main()
 		double temp_0[100];
 		double temp_1[100];
 
-		ofstream output_HJ("..//HJ.csv");
+		/*ofstream output_HJ("..//HJ.csv");
 		for (int i = 0; i < 100; i++) {
 			solution::clear_calls();
 			x1 = 2. * r() / r.max() - 1;
@@ -140,15 +140,15 @@ int main()
 			X2 = Rosen(x0, s0, alfa_Ros, beta, epsilon, Nmax);
 			output_Ros << temp_0[i] << ";" << temp_1[i] << ";" << X2.x(0) << ";" << X2.x(1) << ";" << X2.y << solution::f_calls << endl;
 		}
-		output_Ros.close();
+		output_Ros.close();*/
 
-		/*matrix x0(new double[2]{x1, x2 }, 2);
-		X1 = HJ(x0, s, alfa_HJ, epsilon, Nmax);
-		cout << X1 << endl;
+		//matrix x0(new double[2]{-0.187375, -0.369641}, 2);
+		//X1 = HJ(x0, s, alfa_HJ, epsilon, Nmax);
+		////cout << X1 << endl;
 
-		matrix s0(new double[2]{ s,s }, 2);
-		X2 = Rosen(x0, s0, alfa_Ros, beta, epsilon, Nmax);
-		cout << X2 << endl;*/
+		//matrix s0(new double[2]{ s,s }, 2);
+		//X2 = Rosen(x0, s0, alfa_Ros, beta, epsilon, Nmax);
+		////cout << X2 << endl;
 
 #endif
 #endif
