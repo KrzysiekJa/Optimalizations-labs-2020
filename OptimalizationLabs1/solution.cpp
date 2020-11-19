@@ -92,7 +92,7 @@ void solution::fit_fun(matrix O)
         double a_ref = M_PI, o_ref = 0;
         matrix Y0(2,1);
         
-        matrix * Y = solve_ode(0, 0.1, 100, Y0);
+        matrix * Y = solve_ode(0, 0.1, 100, Y0,x); //x
         int * n = get_size(Y[1]);
         y(0) = 0;
         
