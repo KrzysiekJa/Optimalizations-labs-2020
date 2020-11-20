@@ -161,6 +161,7 @@ solution lag(double a, double b, double epsilon, double gamma, int Nmax, matrix 
 #if LAB_NO>2
 solution HJ(matrix x0, double s, double alfa, double epsilon, int Nmax, matrix O)
 {
+	//ofstream HJ_steps("..//HJ_steps.csv");
 	solution XB, XB_old, X;
 	XB.x = x0;
 	XB.fit_fun();
@@ -176,9 +177,11 @@ solution HJ(matrix x0, double s, double alfa, double epsilon, int Nmax, matrix O
 				X.x = 2.0 * XB.x - XB_old.x;
 				X.fit_fun();
 				X = HJ_trial(X, s);
+				//HJ_steps << XB.x(0) << "; " << XB.x(1) << endl;
 				if (X.y >= XB.y)
 					break;
 				if (solution::f_calls > Nmax) {
+					//HJ_steps.close();
 					return XB;
 				}
 			}
@@ -189,8 +192,9 @@ solution HJ(matrix x0, double s, double alfa, double epsilon, int Nmax, matrix O
 		//cout << XB.x(0) << "; " << XB.x(1) << endl;
 
 		if (s < epsilon || solution::f_calls > Nmax) {
-		return XB;
-	}
+			//HJ_steps.close();
+			return XB;
+		}
 	}
 }
 
