@@ -313,14 +313,14 @@ solution pen(matrix x0, double c0, double dc, double epsilon, int Nmax, matrix O
 	double alfa = 1, beta = 0.5, gama = 2, delta = 0.5, s = 0.5;
 	matrix A(new double[2]{ c0,O(0) }, 2);
 	solution X, X1;
-	X.x = ? ;
+	X.x = x0;
 	while (true)
 	{
 		X1 = sym_NM(X.x, s, alfa, beta, gama, delta, epsilon, Nmax, A);
-		if (? )
+		if (solution::f_calls > Nmax || dc < epsilon)
 			return X1;
-		A(0) *= ? ;
-		X = ? ;
+		A(0) *= dc;
+		X = X1;
 	}
 }
 
