@@ -327,14 +327,19 @@ solution pen(matrix x0, double c0, double dc, double epsilon, int Nmax, matrix O
 solution sym_NM(matrix x0, double s, double alfa, double beta, double gama, double delta, double epsilon, int Nmax, matrix O)
 {
 	int* n = get_size(x0);
-	matrix D = ident_mat(n[0]);
+	//matrix D = ident_mat(n[0]);
+	matrix D(n[0], n[0]);
+	for (int i = 0; i < n[0]; i++) {
+		D(i, i) = 1;
+	}
+
 	int N = n[0] + 1;
 	solution* S = new solution[N];
-	S[0].x = ? ;
+	S[0].x = x0;
 	S[0].fit_fun(O);
 	for (int i = 1; i < N; ++i)
 	{
-		S[i].x = ? ;
+		S[i].x = S[0].x + s; //lambda?
 		S[i].fit_fun(O);
 	}
 	solution p_o, p_e, p_z;
@@ -345,41 +350,41 @@ solution sym_NM(matrix x0, double s, double alfa, double beta, double gama, doub
 		i_min = i_max = 0;
 		for (int i = 1; i < N; ++i)
 		{
-			if (? )
+			if (S[i].y <= S[i_min].y)
 				i_min = i;
-			if (? )
+			if (S[i].y >= S[i_max].y)
 				i_max = i;
 		}
 		p_sr = matrix(n[0], 1);
 		for (int i = 0; i < N; ++i)
 			if (i != i_max)
-				p_sr = ? ;
-		p_sr = ? ;
-		p_o.x = ? ;
+				p_sr = p_sr + S[i].x;
+		p_sr = p_sr / N;
+		p_o.x = p_sr + alfa * (p_sr - S[i_max].x);
 		p_o.fit_fun(O);
-		if (? )
-			S[i_max] = ? ;
-		else if (? )
+		if (S[i_min].y <= p_o.y && p_o.y < S[i_max].y)
+			S[i_max] = p_o;
+		else if (p_o.y < S[i_min].y)
 		{
-			p_e.x = ? ;
+			p_e.x = p_sr + gama * (p_o.x - p_sr);
 			p_e.fit_fun(O);
-			if (? )
-				S[i_max] = ? ;
+			if (p_e.y < p_o.y)
+				S[i_max] = p_e;
 			else
-				S[i_max] = ? ;
+				S[i_max] = p_o;
 		}
 		else
 		{
-			p_z.x = ? ;
+			p_z.x = p_sr + beta * (S[i_max].x - p_sr);
 			p_z.fit_fun(O);
-			if (? )
-				S[i_max] = ? ;
+			if (p_z.y < S[i_max].y)
+				S[i_max] = p_z;
 			else
 			{
 				for (int i = 0; i < N; ++i)
 					if (i != i_min)
 					{
-						S[i].x = ? ;
+						S[i].x = delta * (S[i].x + S[i_min].x);
 						S[i].fit_fun(O);
 					}
 			}
@@ -388,7 +393,7 @@ solution sym_NM(matrix x0, double s, double alfa, double beta, double gama, doub
 		for (int i = 1; i < N; ++i)
 			if (max_s < norm(S[i].x - S[i_min].x))
 				max_s = norm(S[i].x - S[i_min].x);
-		if (? )
+		if (solution::f_calls > Nmax || abs(max_s) < epsilon)
 			return S[i_min];
 	}
 }

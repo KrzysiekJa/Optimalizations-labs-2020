@@ -79,6 +79,10 @@ matrix diff(double t, const matrix &Y, matrix P)
     
     return dY;
 #else
+#if LAB_NO == 4
+
+
+#endif
 	matrix dY(Y);
 	return dY;
 #endif

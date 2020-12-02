@@ -104,6 +104,27 @@ void solution::fit_fun(matrix O)
         
     #endif
 #endif
+#if LAB_NO == 4
+        //zewnetrzna f kary
+#if LAB_PART == 1
+
+        y = pow(x(0), 2) + pow(x(1), 2);
+
+#endif
+        //wewnetrzna f kary
+#if LAB_PART == 2
+
+
+
+#endif
+        //problem rzeczywisty
+#if LAB_PART == 3
+
+
+
+#endif
+
+#endif
 	++f_calls;
 }
 
