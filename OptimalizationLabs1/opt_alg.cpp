@@ -397,6 +397,7 @@ solution sym_NM(matrix x0, double s, double alfa, double beta, double gama, doub
 			return S[i_min];
 	}
 }
+
 #endif
 #if LAB_NO>4
 solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix O)
