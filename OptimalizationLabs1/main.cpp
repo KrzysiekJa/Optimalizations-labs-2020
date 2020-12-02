@@ -158,7 +158,7 @@ int main()
 		epsilon = 0.001;
 		beta = 0.0001;
 		Nmax = 1000;
-		s = 0.001; //s2 = 0.005, s3 = 0.01
+		s = 0.1; //s2 = 0.005, s3 = 0.01
 
 		matrix x0(new double[2]{ 1, 1 }, 2);
 		solution g(x0);
@@ -173,6 +173,7 @@ int main()
 		matrix s0(new double[2]{ s,s }, 2);
 		solution solRos = Rosen(x0, s0, alfa_Ros, beta, epsilon, Nmax);
 		cout << solRos << endl;
+
 #endif
 #endif
 	}
