@@ -180,8 +180,8 @@ int main()
 #if LAB_PART ==1
 
         double alfa = 1, beta = 0.5, gama = 2, delta = 0.5, s = 0.5;
-		double epsilon = 0.00001;
-		int Nmax = 30000;
+		double epsilon = 1e-5;
+		int Nmax = 1e5;
         
         matrix O(4);
         matrix x0(new double[2]{ 2, 2 }, 2);
@@ -191,8 +191,8 @@ int main()
 #if LAB_PART ==2
         
         double c0 = 2., dc = 0.01;
-        double epsilon = 0.00001;
-        int Nmax = 30000;
+        double epsilon = 1e-5;
+        int Nmax = 1e5;
         
         matrix O(2);
         matrix x0(new double[2]{ 2, 2 }, 2);
