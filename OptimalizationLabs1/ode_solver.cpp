@@ -52,7 +52,7 @@ matrix diff(double t, const matrix &Y, matrix P)
 #endif
 #if LAB_NO == 2
 	matrix dY(Y);
-	double a=0.98, b=0.63, g=9.81, PA=1, PB=1, DB= 0.00365665, Fin = 0.01, Tin=10, TA=90, TB =10; //podane w konspekcie
+	double a=0.98, b=0.63, g=9.81, PA=1, PB=1, DB= 0.00365665, Fin = 0.01, Tin=10, TA=90, TB =10;
 	double DA = P(0); //P[1][1]
 
 	double FAout = Y(0) > 0 ? a * b * DA * sqrt(2 * g * Y(0) / PA) : 0;
@@ -78,11 +78,23 @@ matrix diff(double t, const matrix &Y, matrix P)
     dY(1) = (k1 * (a_ref - Y(0)) + k2 * (o_ref - Y(1)) - b * Y(1)) /I;
     
     return dY;
-#else
-#if LAB_NO == 4
-
-
 #endif
+#if LAB_NO == 4
+    matrix dY(Y);
+    double m = 0.6, g = 9.81, c = 0.47, ro = 1.2, r = 0.12, S = M_PI*pow(r, 2);
+    
+    double Dx = 0.5 * c * ro * S * Y(1) * abs(Y(1));
+    double Dy = 0.5 * c * ro * S * Y(3) * abs(Y(3));
+    double FMx = M_PI * ro * Y(3) * P(0) * pow(r, 3);
+    double FMy = M_PI * ro * Y(1) * P(0) * pow(r, 3);
+    
+    dY(0) = Y(1);
+    dY(1) = -(Dx + FMx)/ m;
+    dY(2) = Y(3);
+    dY(3) = -(m * g + Dy + FMy)/ m;
+    
+    return dY;
+#else
 	matrix dY(Y);
 	return dY;
 #endif

@@ -61,6 +61,7 @@ void solution::fit_fun(matrix O)
 {
 #if LAB_NO == 2
     #if LAB_PART == 1
+    
         y = -cos(0.1 * x(0, 0)) * exp(-pow(0.1 * x(0, 0) - 2 * M_PI, 2)) + 0.002 * pow(0.1 * x(0, 0), 2);
 
     #endif
@@ -86,9 +87,11 @@ void solution::fit_fun(matrix O)
 #if LAB_NO == 3
     #if LAB_PART == 1
         //y = pow(x(0), 2) + pow(x(1), 2);
-       y = pow(x(0), 2) + pow(x(1), 2) - cos(2.5 * x(0) * M_PI) - cos(2.5 * x(1) * M_PI) + 2;
+        y = pow(x(0), 2) + pow(x(1), 2) - cos(2.5 * x(0) * M_PI) - cos(2.5 * x(1) * M_PI) + 2;
+    
     #endif
     #if LAB_PART == 2
+    
         double a_ref = M_PI, o_ref = 0;
         matrix Y0(2,1);
         
@@ -105,26 +108,43 @@ void solution::fit_fun(matrix O)
     #endif
 #endif
 #if LAB_NO == 4
-        //zewnetrzna f kary
-#if LAB_PART == 1
+            //zewnetrzna f kary
+    #if LAB_PART == 1
 
-        y = pow(x(0), 2) + pow(x(1), 2);
+        y = sin(M_PI * sqrt(pow(x(0)/ M_PI, 2) + pow(x(1)/ M_PI, 2)))/ (M_PI * sqrt(pow(x(0)/ M_PI, 2) + pow(x(1)/ M_PI, 2)));
+    
+        if(-x(0) + 1 > 0){
+            y = y + O(0) * pow(-x(0) + 1,2);
+        }
+        
+    #endif
+            //wewnetrzna f kary
+    #if LAB_PART == 2
 
+        y = sin(M_PI * sqrt(pow(x(0)/ M_PI, 2) + pow(x(1)/ M_PI, 2)))/ (M_PI * sqrt(pow(x(0)/ M_PI, 2) + pow(x(1)/ M_PI, 2)));
+    
+        if(-x(0) + 1 > 0){
+            y = 1e10;
+        }else{
+            y = y - 1/ (-x(0) + 1);
+        }
+        
+    #endif
+            //problem rzeczywisty
+    #if LAB_PART == 3
+
+        matrix Y0(new double[4]{0, x(0), 100, 0}, 4);
+        matrix *Y = solve_ode(0.001, 7, Y0, x(1));
+        
+        y = -x(0);
+        
+        if(-x(0) - 10 > 0){
+            y = y + O(0) * pow(-x(0) - 10,2);
+        }
+
+    #endif
 #endif
-        //wewnetrzna f kary
-#if LAB_PART == 2
-
-
-
-#endif
-        //problem rzeczywisty
-#if LAB_PART == 3
-
-
-
-#endif
-
-#endif
+    
 	++f_calls;
 }
 

@@ -179,29 +179,31 @@ int main()
 #if LAB_NO ==4
 #if LAB_PART ==1
 
-		double alfa = 1, beta = 0.5, gama = 2, delta = 0.5, s = 0.5;
+        double alfa = 1, beta = 0.5, gama = 2, delta = 0.5, s = 0.5;
 		double epsilon = 0.00001;
-		int Nmax = 10000;
-		matrix O(4.);
-		matrix x0(new double[2]{ 2, 2 }, 2);
-		solution X1 = sym_NM(x0, s, alfa, beta, gama, delta, epsilon, Nmax, O);
-		cout << X1 << endl;
+		int Nmax = 30000;
+        
+        matrix O(4);
+        matrix x0(new double[2]{ 2, 2 }, 2);
+        solution X = sym_NM(x0, s, alfa, beta, gama, delta, epsilon, Nmax, O);
+        cout << X << endl;
 #endif
 #if LAB_PART ==2
-
-
-
-
+        
+        double c0 = 2., dc = 0.01;
+        double epsilon = 0.00001;
+        int Nmax = 30000;
+        
+        matrix O(2);
+        matrix x0(new double[2]{ 2, 2 }, 2);
+        solution X = pen(x0, c0, dc, epsilon, Nmax, O);
+        cout << X << endl;
+        
 #endif
 #if LAB_PART ==3
-
-
-
-
+        
+        
 #endif
-
-
-
 #endif
 	}
 	catch (char* EX_INFO)
