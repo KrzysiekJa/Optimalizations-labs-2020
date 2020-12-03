@@ -116,6 +116,12 @@ void solution::fit_fun(matrix O)
         if(-x(0) + 1 > 0){
             y = y + O(0) * pow(-x(0) + 1,2);
         }
+        if(-x(1) + 1 > 0){
+            y = y + O(0) * pow(-x(1) + 1,2);
+        }
+        if(sqrt(pow(x(0),2) + pow(x(1),2)) - O(1) > 0){  // 0(1) = a
+            y = y + O(0) * pow(sqrt(pow(x(0),2) + pow(x(1),2)) - O(1),2);
+        }
         
     #endif
             //wewnetrzna f kary
@@ -128,18 +134,43 @@ void solution::fit_fun(matrix O)
         }else{
             y = y - 1/ (-x(0) + 1);
         }
+        if(-x(1) + 1 > 0){
+            y = 1e10;
+        }else{
+            y = y - 1/ (-x(1) + 1);
+        }
+        if(sqrt(pow(x(0),2) + pow(x(1),2)) - O(1) > 0){
+            y = 1e10;
+        }else{
+            y = y - 1/ (sqrt(pow(x(0),2) + pow(x(1),2)) - O(1));
+        }
         
     #endif
             //problem rzeczywisty
     #if LAB_PART == 3
 
         matrix Y0(new double[4]{0, x(0), 100, 0}, 4);
-        matrix *Y = solve_ode(0.001, 7, Y0, x(1));
+        matrix *Y = solve_ode(0,0.01, 7, Y0, x(1));
         
-        y = -x(0);
-        
+        y = -Y[1](Y.get_size(Y)[0] - 1, 0);
+    
         if(-x(0) - 10 > 0){
             y = y + O(0) * pow(-x(0) - 10,2);
+        }
+        if(-x(0) + 10 < 0){
+            y = y + O(0) * pow(-x(0) + 10,2);
+        }
+        if(-x(1) - 20 > 0){
+            y = y + O(0) * pow(-x(1) - 20,2);
+        }
+        if(-x(1) + 20 < 0){
+            y = y + O(0) * pow(-x(1) + 20,2);
+        }
+        if(-Y[1]((Y.get_size(Y)[0] - 1)/2, 3) + 4 < 0){
+            y = y + O(0) * pow(-Y[1]((Y.get_size(Y)[0] - 1)/2, 3) + 4,2);
+        }
+        if(-Y[1]((Y.get_size(Y)[0] - 1)/2, 3) + 6 < 0){
+            y = y + O(0) * pow(-Y[1]((Y.get_size(Y)[0] - 1)/2, 3) + 6,2);
         }
 
     #endif
