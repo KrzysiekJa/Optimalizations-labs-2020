@@ -177,27 +177,52 @@ int main()
 #endif
 #endif
 #if LAB_NO ==4
-#if LAB_PART ==1
-
-        double alfa = 1, beta = 0.5, gama = 2, delta = 0.5, s = 0.5;
+		double c0 = 5.;
 		double epsilon = 1e-5;
 		int Nmax = 1e5;
-        
-        matrix O(4);
-        matrix x0(new double[2]{ 2, 2 }, 2);
-        solution X = sym_NM(x0, s, alfa, beta, gama, delta, epsilon, Nmax, O);
-        cout << X << endl;
+		double a = 5;
+
+		random_device r;
+		double temp_x1[100];
+		double temp_x2[100];
+		for (int i = 0; i < 100; i++) {
+			temp_x1[i] = (sqrt(a * a / 2) - 1) * r() / r.max() + 1;
+			temp_x2[i] = (sqrt(a * a / 2) - 1) * r() / r.max() + 1;
+		}
+
+#if LAB_PART ==1
+       // double alfa = 1, beta = 0.5, gama = 2, delta = 0.5, s = 0.5;
+		double dc = 1.5;
+	
+		for (int i = 0; i < 100; i++) {
+			solution::clear_calls();
+			matrix O(a);
+			matrix x0(new double[2]{ temp_x1[i], temp_x2[i] }, 2);
+			solution X = pen(x0, c0, dc, epsilon, Nmax, O);
+			cout << X << endl;
+		}
+
+  //      matrix O(a);
+  //      matrix x0(new double[2]{ 3, 2 }, 2);
+  //     // solution X = sym_NM(x0, s, alfa, beta, gama, delta, epsilon, Nmax, O);
+		//solution X = pen(x0, c0, dc, epsilon, Nmax, O);
+  //      cout << X << endl;
 #endif
 #if LAB_PART ==2
+		double dc = 0.5;
+       
+		for (int i = 0; i < 100; i++) {
+			solution::clear_calls();
+			matrix O(a);
+			matrix x0(new double[2]{ temp_x1[i], temp_x2[i] }, 2);
+			solution X = pen(x0, c0, dc, epsilon, Nmax, O);
+			cout << X << endl;
+		}
         
-        double c0 = 2., dc = 0.01;
-        double epsilon = 1e-5;
-        int Nmax = 1e5;
-        
-        matrix O(2);
-        matrix x0(new double[2]{ 2, 2 }, 2);
+       /* matrix O();
+        matrix x0(new double[2]{ 3, 2 }, 2);
         solution X = pen(x0, c0, dc, epsilon, Nmax, O);
-        cout << X << endl;
+        cout << X << endl;*/
         
 #endif
 #if LAB_PART ==3
