@@ -178,10 +178,10 @@ void solution::fit_fun(matrix O)
         if(-x(1) + 20 < 0){
             y = y + O(0) * pow(-x(1) + 20,2);
         }
-        if(-x50 + 4 < 0){
+        if(-x50 + 4 > 0){
             y = y + O(0) * pow(-x50 + 4,2);
         }
-        if(-x50 + 6 > 0){
+        if(-x50 + 6 < 0){
             y = y + O(0) * pow(-x50 + 6,2);
         }
 

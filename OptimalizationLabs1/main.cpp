@@ -178,7 +178,7 @@ int main()
 #endif
 #if LAB_NO ==4
 		double c0 = 10.;
-		double epsilon = 1e-6;
+		double epsilon = 1e-5;
 		int Nmax = 1e5;
 		double a;
 
@@ -394,16 +394,18 @@ int main()
 		 #endif
 #if LAB_PART ==3
         
-        double dc = 1.5, c = 1.0;
+        double dc = 2., c = 1.0;
         
         solution::clear_calls();
-        matrix O(new double[]{1.0, 1}, 2);
+		matrix O(new double[2]{ 1.,1. }, 2);
         matrix x0(new double[2]{ 2.0, 2.0 }, 2);
         solution simulation = pen(x0, c, dc, epsilon, Nmax, O);
+		cout << simulation;
         matrix Y0(new double[]{0.0, 2.0, 100.0, 0.0}, 4);
         matrix * Y = solve_ode(0.0, 0.01, 7.0, Y0, 2.0);
         ofstream file("..//simulation.csv");
         file << Y[1];
+		file.close();
 
 #endif
 #endif
