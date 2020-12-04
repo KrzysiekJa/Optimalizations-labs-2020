@@ -112,6 +112,7 @@ void solution::fit_fun(matrix O)
     #if LAB_PART == 1
 
         y = sin(M_PI * sqrt(pow(x(0)/ M_PI, 2) + pow(x(1)/ M_PI, 2)))/ (M_PI * sqrt(pow(x(0)/ M_PI, 2) + pow(x(1)/ M_PI, 2)));
+       // y = pow(x(0), 2) + pow(x(1), 2);
     
         if(-x(0) + 1 > 0){
             y = y + O(0) * pow(-x(0) + 1,2);
@@ -128,21 +129,22 @@ void solution::fit_fun(matrix O)
     #if LAB_PART == 2
 
         y = sin(M_PI * sqrt(pow(x(0)/ M_PI, 2) + pow(x(1)/ M_PI, 2)))/ (M_PI * sqrt(pow(x(0)/ M_PI, 2) + pow(x(1)/ M_PI, 2)));
-    
+       // y = pow(x(0), 2) + pow(x(1), 2);
+
         if(-x(0) + 1 > 0){
             y = 1e10;
         }else{
-            y = y - 1/ (-x(0) + 1);
+            y = y - (O(0)/ (-x(0) + 1));
         }
         if(-x(1) + 1 > 0){
             y = 1e10;
         }else{
-            y = y - 1/ (-x(1) + 1);
+            y = y - (O(0) / (-x(1) + 1));
         }
         if(sqrt(pow(x(0),2) + pow(x(1),2)) - O(1) > 0){
             y = 1e10;
         }else{
-            y = y - 1/ (sqrt(pow(x(0),2) + pow(x(1),2)) - O(1));
+            y = y - (O(0) / (sqrt(pow(x(0),2) + pow(x(1),2)) - O(1)));
         }
         
     #endif

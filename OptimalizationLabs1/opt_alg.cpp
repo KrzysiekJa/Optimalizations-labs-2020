@@ -317,7 +317,7 @@ solution pen(matrix x0, double c0, double dc, double epsilon, int Nmax, matrix O
 	while (true)
 	{
 		X1 = sym_NM(X.x, s, alfa, beta, gama, delta, epsilon, Nmax, A);
-		if (solution::f_calls > Nmax || dc < epsilon)
+		if (solution::f_calls > Nmax || A(0) < epsilon || A(0) > 1/epsilon)
 			return X1;
 		A(0) *= dc;
 		X = X1;
@@ -393,7 +393,7 @@ solution sym_NM(matrix x0, double s, double alfa, double beta, double gama, doub
 		for (int i = 1; i < N; ++i)
 			if (max_s < norm(S[i].x - S[i_min].x))
 				max_s = norm(S[i].x - S[i_min].x);
-		if (solution::f_calls > Nmax || abs(max_s) < epsilon)
+		if (solution::f_calls > Nmax || max_s < epsilon)
 			return S[i_min];
 	}
 }
