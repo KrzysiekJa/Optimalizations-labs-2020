@@ -153,8 +153,18 @@ void solution::fit_fun(matrix O)
 
         matrix Y0(new double[4]{0, x(0), 100, 0}, 4);
         matrix *Y = solve_ode(0,0.01, 7, Y0, x(1));
-        
-        y = -Y[1](Y.get_size(Y)[0] - 1, 0);
+        double x0, x50;
+    
+        for(int i = 0; i < get_size(Y[1])[0] - 1; ++i){
+            if(Y[1](i,2) > 49.5 && Y[1](i,2) < 50.5){
+                x50 = Y[1](i,0);
+            }
+            if(Y[1](i,2) > -0.5 && Y[1](i,2) < 0.5){
+                x0 = Y[1](i,0);
+            }
+        }
+        y = -x0;
+    
     
         if(-x(0) - 10 > 0){
             y = y + O(0) * pow(-x(0) - 10,2);
