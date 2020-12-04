@@ -156,10 +156,10 @@ void solution::fit_fun(matrix O)
         double x0, x50;
     
         for(int i = 0; i < get_size(Y[1])[0] - 1; ++i){
-            if(Y[1](i,2) > 49.5 && Y[1](i,2) < 50.5){
+            if(Y[1](i,2) > 49.8 && Y[1](i,2) < 50.8){
                 x50 = Y[1](i,0);
             }
-            if(Y[1](i,2) > -0.5 && Y[1](i,2) < 0.5){
+            if(Y[1](i,2) > -0.2 && Y[1](i,2) < 0.2){
                 x0 = Y[1](i,0);
             }
         }
@@ -178,11 +178,11 @@ void solution::fit_fun(matrix O)
         if(-x(1) + 20 < 0){
             y = y + O(0) * pow(-x(1) + 20,2);
         }
-        if(-Y[1]((Y.get_size(Y)[0] - 1)/2, 3) + 4 < 0){
-            y = y + O(0) * pow(-Y[1]((Y.get_size(Y)[0] - 1)/2, 3) + 4,2);
+        if(-x50 + 4 < 0){
+            y = y + O(0) * pow(-x50 + 4,2);
         }
-        if(-Y[1]((Y.get_size(Y)[0] - 1)/2, 3) + 6 < 0){
-            y = y + O(0) * pow(-Y[1]((Y.get_size(Y)[0] - 1)/2, 3) + 6,2);
+        if(-x50 + 6 > 0){
+            y = y + O(0) * pow(-x50 + 6,2);
         }
 
     #endif

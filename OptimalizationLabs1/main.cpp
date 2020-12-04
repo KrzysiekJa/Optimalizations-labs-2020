@@ -393,6 +393,17 @@ int main()
 
 		 #endif
 #if LAB_PART ==3
+        
+        double dc = 1.5, c = 1.0;
+        
+        solution::clear_calls();
+        matrix O(new double[]{1.0, 1}, 2);
+        matrix x0(new double[2]{ 2.0, 2.0 }, 2);
+        solution simulation = pen(x0, c, dc, epsilon, Nmax, O);
+        matrix Y0(new double[]{0.0, 2.0, 100.0, 0.0}, 4);
+        matrix * Y = solve_ode(0.0, 0.01, 7.0, Y0, 2.0);
+        ofstream file("..//simulation.csv");
+        file << Y[1];
 
 #endif
 #endif
