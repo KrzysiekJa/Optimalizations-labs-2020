@@ -83,6 +83,7 @@ void solution::fit_fun(matrix O)
         y = abs(50 - max);
 
     #endif
+    ++f_calls;
 #endif
 #if LAB_NO == 3
     #if LAB_PART == 1
@@ -106,6 +107,7 @@ void solution::fit_fun(matrix O)
         y(0) = y(0) * 0.1;
         
     #endif
+    ++f_calls;
 #endif
 #if LAB_NO == 4
             //zewnetrzna f kary
@@ -186,9 +188,35 @@ void solution::fit_fun(matrix O)
         }
 
     #endif
+    ++f_calls;
 #endif
+#if LAB_NO == 5
+    #if LAB_PART == 1
     
-	++f_calls;
+     int * n = get_size(O[0]);
+     
+        if(n[1] == 1){
+            y = pow(x(0) + 2*x(1) - 7, 2) + pow(2*x(0) + x(1) - 5, 2);
+            ++f_calls;
+        }else{
+            solution tmp;
+            tmp.x = O[0] + x * O[1];
+            tmp.fit_fun();
+            y = tmp.y;
+        }
+    
+    #endif
+    #if LAB_PART == 2
+    
+        
+        
+    #endif
+    #if LAB_PART == 3
+        
+        
+    
+    #endif
+#endif
 }
 
 void solution::grad(matrix O)

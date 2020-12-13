@@ -1,5 +1,6 @@
 #include "opt_alg.h"
-#include<fstream>
+#include <fstream>
+#include <cmath>
 
 #if LAB_NO>1
 double* expansion(double x0, double d, double alfa, int Nmax, matrix O)
@@ -411,25 +412,25 @@ solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 	while (true)
 	{
 		X.grad();
-		d = ? ;
+        d = - X.g;
 		P = set_col(P, X.x, 0);
 		P = set_col(P, d, 1);
 		if (h0 < 0)
 		{
-			b = compute_b(? , ? , limits);
-			h = golden(? , ? , epsilon, Nmax, P);
-			X1.x = ? ;
+            b = compute_b(X.x, d, limits);
+            h = golden(0, b, epsilon, Nmax, P);
+            X1.x = X1.x + h.x;
 		}
 		else
-			X1.x = ? ;
-		if (? ||
-			? ||
-			? );
+            X1.x = X1.x + h0;
+        if (fabs(h.x) < epsilon ||
+			fabs(h0) < epsilon ||
+			solution::f_calls > Nmax);
 		{
 			X1.fit_fun();
 			return X1;
 		}
-		X = ? ;
+		X = X1;
 	}
 }
 
@@ -442,22 +443,22 @@ solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 	solution h;
 	double b, beta;
 	X.grad();
-	d = ? ;
+	d = - X.g;
 	while (true)
 	{
 		P = set_col(P, X.x, 0);
 		P = set_col(P, d, 1);
 		if (h0 < 0)
 		{
-			b = compute_b(? , ? , limits);
-			h = golden(? , ? , epsilon, Nmax, P);
-			X1.x = ? ;
+            b = compute_b(X.x , d, limits);
+			h = golden(0, b, epsilon, Nmax, P);
+			X1.x = X1.x + h.x;
 		}
 		else
-			X1.x = ? ;
-		if (? ||
-			? ||
-			? )
+			X1.x = X1.x + h0;
+		if (fabs(h.x) < epsilon ||
+            fabs(h0) < epsilon ||
+			solution::f_calls > Nmax)
 		{
 			X1.fit_fun();
 			return X1;
@@ -543,15 +544,16 @@ double compute_b(matrix x, matrix d, matrix limits)
 {
 	int* n = get_size(x);
 	double b = 1e9, bi;
+    
 	for (int i = 0; i < n[0]; ++i)
 	{
 		if (d(i) == 0)
-			bi = ? ;
+			bi = b;
 		else if (d(i) > 0)
-			bi = ? ;
+			bi = (limits(i, 1) - x(i)) / d(i);
 		else
-			bi = ? ;
-		if (? )
+			bi = (limits(i, 0) - x(i)) / d(i);
+		if (b != bi)
 			b = bi;
 	}
 	return b;

@@ -392,7 +392,7 @@ int main()
 		 pen_wew5.close();
 
 		 #endif
-#if LAB_PART ==3
+    #if LAB_PART ==3
         
         double dc = 2., c = 1.0;
         
@@ -407,7 +407,22 @@ int main()
         file << Y[1];
 		file.close();
 
+    #endif
 #endif
+
+#if LAB_NO == 5
+    #if LAB_PART == 1
+        
+        
+    #endif
+    #if LAB_PART == 2
+                
+                
+    #endif
+    #if LAB_PART == 3
+                        
+                        
+    #endif
 #endif
 	}
 	catch (char* EX_INFO)
