@@ -221,12 +221,42 @@ void solution::fit_fun(matrix O)
 
 void solution::grad(matrix O)
 {
-	//g = NAN;
+#if LAB_NO == 5
+#if LAB_PART == 1
+
+    //g = NAN;   //wektor 2 elem =df/dx1  i  df/dx2
+    g(0) = 10 * x(0) + 8 * x(1) - 34;
+    g(1) = 8 * x(0) + 10 * x(1) - 38;
+
+#endif
+#if LAB_PART == 2
+
+
+
+#endif
+#endif
+	
 	++g_calls;
 }
 
 void solution::hess(matrix O)
 {
-	//H = NAN;
+#if LAB_NO == 5
+#if LAB_PART == 1
+
+    //H = NAN;  macierz 2x2 df^2/dx1^2  df^2/dx1x2
+    //                      df^2/dx1x2  df^2/dx2^2
+    H(0, 0) = 10;
+    H(0, 1) = 8;
+    H(1, 0) = 8;
+    H(1, 1) = 10;
+#endif
+#if LAB_PART == 2
+
+
+
+#endif
+#endif
+
 	++H_calls;
 }

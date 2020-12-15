@@ -318,7 +318,7 @@ solution pen(matrix x0, double c0, double dc, double epsilon, int Nmax, matrix O
 	while (true)
 	{
 		X1 = sym_NM(X.x, s, alfa, beta, gama, delta, epsilon, Nmax, A);
-		if (solution::f_calls > Nmax || A(0) < epsilon || A(0) > 1/epsilon)
+		if (solution::f_calls > Nmax || A(0) < epsilon || A(0) > 1 / epsilon)
 			return X1;
 		A(0) *= dc;
 		X = X1;
@@ -401,7 +401,7 @@ solution sym_NM(matrix x0, double s, double alfa, double beta, double gama, doub
 
 #endif
 #if LAB_NO>4
-solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix O)
+solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix O) //metoda najszybszego spadku
 {
 	int* n = get_size(x0);
 	solution X, X1;
@@ -412,18 +412,18 @@ solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 	while (true)
 	{
 		X.grad();
-        d = - X.g;
+		d = -X.g;
 		P = set_col(P, X.x, 0);
 		P = set_col(P, d, 1);
-		if (h0 < 0)
+		if (h0 < 0) // zmiennokrokowa
 		{
-            b = compute_b(X.x, d, limits);
-            h = golden(0, b, epsilon, Nmax, P);
-            X1.x = X1.x + h.x;
+			b = compute_b(X.x, d, limits);
+			h = golden(0, b, epsilon, Nmax, P);
+			X1.x = X.x + h.x * d;
 		}
-		else
-            X1.x = X1.x + h0;
-        if (fabs(h.x) < epsilon ||
+		else //sta³okrokowa
+			X1.x = X.x + h0 * d;
+		if (norm(X1.x - X.x) < epsilon || //do poprawy?
 			fabs(h0) < epsilon ||
 			solution::f_calls > Nmax);
 		{
@@ -443,21 +443,21 @@ solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 	solution h;
 	double b, beta;
 	X.grad();
-	d = - X.g;
+	d = -X.g;
 	while (true)
 	{
 		P = set_col(P, X.x, 0);
 		P = set_col(P, d, 1);
 		if (h0 < 0)
 		{
-            b = compute_b(X.x , d, limits);
+			b = compute_b(X.x, d, limits);
 			h = golden(0, b, epsilon, Nmax, P);
-			X1.x = X1.x + h.x;
+			X1.x = X.x + h.x * d;
 		}
 		else
-			X1.x = X1.x + h0;
-		if (fabs(h.x) < epsilon ||
-            fabs(h0) < epsilon ||
+			X1.x = X.x + h0 * d;
+		if ((X1.x - X.x) < epsilon || //do poprawy
+			fabs(h0) < epsilon ||
 			solution::f_calls > Nmax)
 		{
 			X1.fit_fun();
@@ -482,56 +482,56 @@ solution Newton(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 	{
 		X.grad();
 		X.hess();
-		d = ? ;
+		d = X.g * inv(X.H);
 		P = set_col(P, X.x, 0);
 		P = set_col(P, d, 1);
 		if (h0 < 0)
 		{
-			b = compute_b(? , ? , limits);
-			h = golden(? , ? , epsilon, Nmax, P);
-			X1.x = ? ;
+			b = compute_b(X.x, d, limits);
+			h = golden(0, b, epsilon, Nmax, P);
+			X1.x = X.x + h.x * d;
 		}
 		else
-			X1.x = ? ;
-		if (? ||
-			? ||
-			? ||
-			? )
+			X1.x = X.x + h0 * d;
+		if ((X1.x - X.x) < epsilon || //do poprawy
+			det(X.H) == 0 ||
+			X.g ==0 ||
+			solution::f_calls > Nmax)
 		{
 			X1.fit_fun();
 			return X1;
 		}
-		X = ? ;
+		X = X1;
 	}
 }
 
 solution golden(double a, double b, double epsilon, int Nmax, matrix O)
 {
-	double alfa = ? ;
+	double alfa = (sqrt(5) - 1) / 2;
 	solution A, B, C, D;
-	A.x = ? ;
-	B.x = ? ;
-	C.x = ? ;
+	A.x = a;
+	B.x = b;
+	C.x = B.x - alfa * (B.x - A.x);
 	C.fit_fun(O);
-	D.x = ? ;
+	D.x = A.x + alfa * (B.x - A.x);
 	D.fit_fun(O);
 	while (true)
 	{
-		if (? )
+		if (C.y < D.y)
 		{
-			B = ? ;
-			D = ? ;
-			C.x = ? ;
+			B = D;
+			D = C;
+			C.x = B.x - alfa * (B.x - A.x);
 			C.fit_fun(O);
 		}
 		else
 		{
-			A = ? ;
-			C = ? ;
-			D.x = ? ;
+			A = C;
+			C = D;
+			D.x = A.x + alfa * (B.x - A.x);
 			D.fit_fun(O);
 		}
-		if (? )
+		if (B.x - A.x < epsilon)
 		{
 			A.x = (A.x + B.x) / 2.0;
 			A.fit_fun(O);
@@ -544,11 +544,11 @@ double compute_b(matrix x, matrix d, matrix limits)
 {
 	int* n = get_size(x);
 	double b = 1e9, bi;
-    
+
 	for (int i = 0; i < n[0]; ++i)
 	{
 		if (d(i) == 0)
-			bi = b;
+			bi = 1e9;
 		else if (d(i) > 0)
 			bi = (limits(i, 1) - x(i)) / d(i);
 		else
