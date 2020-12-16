@@ -413,7 +413,23 @@ int main()
 #if LAB_NO == 5
     #if LAB_PART == 1
         
-        
+		int m = 100;
+		
+		matrix X(3, m);
+		matrix Y(1, m);
+
+		ifstream S("..//XData.txt");
+		S >> X;
+		S.close();
+
+		S.open("..//YData.txt");
+
+		S >> Y;
+		S.close();
+
+		cout << X[0];
+		cout << Y[3];
+		
         
     #endif
     #if LAB_PART == 2
