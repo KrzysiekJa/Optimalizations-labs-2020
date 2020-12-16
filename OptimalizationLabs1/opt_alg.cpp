@@ -411,8 +411,8 @@ solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix O) //metoda n
 	double b;
 	while (true)
 	{
-		X.grad();
-		d = -X.g;
+        X.grad();
+		d = - X.g;
 		P = set_col(P, X.x, 0);
 		P = set_col(P, d, 1);
 		if (h0 < 0) // zmiennokrokowa
@@ -423,9 +423,9 @@ solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix O) //metoda n
 		}
 		else //sta³okrokowa
 			X1.x = X.x + h0 * d;
-		if (norm(X1.x - X.x) < epsilon || //do poprawy?
-			fabs(h0) < epsilon ||
-			solution::f_calls > Nmax);
+		if (norm(X1.x - X.x) < epsilon ||
+            norm(X.g) < epsilon ||
+			solution::f_calls > Nmax)
 		{
 			X1.fit_fun();
 			return X1;
@@ -443,7 +443,7 @@ solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 	solution h;
 	double b, beta;
 	X.grad();
-	d = -X.g;
+	d = - X.g;
 	while (true)
 	{
 		P = set_col(P, X.x, 0);
@@ -456,17 +456,17 @@ solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 		}
 		else
 			X1.x = X.x + h0 * d;
-		if ((X1.x - X.x) < epsilon || //do poprawy
-			fabs(h0) < epsilon ||
+		if ((X1.x - X.x) < epsilon ||
+			norm(X.g) < epsilon ||
 			solution::f_calls > Nmax)
 		{
 			X1.fit_fun();
 			return X1;
 		}
 		X1.grad();
-		beta = ? ;
-		d = ? ;
-		X = ? ;
+		beta = pow(norm(X1.g), 2) / pow(norm(X.g), 2);
+		d = - X.g + beta * d;
+		X = X1;
 	}
 }
 
@@ -493,9 +493,9 @@ solution Newton(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 		}
 		else
 			X1.x = X.x + h0 * d;
-		if ((X1.x - X.x) < epsilon || //do poprawy
-			det(X.H) == 0 ||
-			X.g ==0 ||
+		if ((X1.x - X.x) < epsilon ||
+			norm(X.g) < epsilon ||
+            det(X.H) == 0 ||
 			solution::f_calls > Nmax)
 		{
 			X1.fit_fun();

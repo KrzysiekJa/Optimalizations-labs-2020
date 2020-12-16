@@ -193,7 +193,7 @@ void solution::fit_fun(matrix O)
 #if LAB_NO == 5
     #if LAB_PART == 1
     
-     int * n = get_size(O[0]);
+        int * n = get_size(O[0]);
      
         if(n[1] == 1){
             y = pow(x(0) + 2*x(1) - 7, 2) + pow(2*x(0) + x(1) - 5, 2);
@@ -207,8 +207,33 @@ void solution::fit_fun(matrix O)
     
     #endif
     #if LAB_PART == 2
-    
         
+        int m   = 100;
+        int * n = get_size(x);
+        double h, d = 0.0;
+        static matrix X(n[0], m); Y(1, m);
+        
+        if(solution::f_calls==0){
+            ifstream S("XData.txt");
+            if (S.good() == true){
+                S >> X;
+                S.close();
+            }
+            S("YData.txt");
+            if (S.good() == true){
+                S >> Y;
+                S.close();
+            }
+        }
+        
+        for (int i = 0; i < m; ++i) {
+            h = (trans(x) * X[i])(0);
+            h = 1.0 / (1.0 + exp(-h));
+            y = y - Y(0,i) * log(h) - (1 - Y(0,i)) * log(1 - h);
+        }
+        y(0) = y(0)/m;
+        
+        ++f_calls;
         
     #endif
     #if LAB_PART == 3
@@ -222,18 +247,45 @@ void solution::fit_fun(matrix O)
 void solution::grad(matrix O)
 {
 #if LAB_NO == 5
-#if LAB_PART == 1
+    #if LAB_PART == 1
 
-    //g = NAN;   //wektor 2 elem =df/dx1  i  df/dx2
+    //wektor 2 elem =df/dx1  i  df/dx2
     g(0) = 10 * x(0) + 8 * x(1) - 34;
     g(1) = 8 * x(0) + 10 * x(1) - 38;
 
-#endif
-#if LAB_PART == 2
+    #endif
+    #if LAB_PART == 2
 
+        int m   = 100;
+        int * n = get_size(x);
+        double h;
+        static matrix X(n[0], m); Y(1, m);
+        
+        if(solution::g_calls==0){
+            ifstream S("XData.txt");
+            if (S.good() == true){
+                S >> X;
+                S.close();
+            }
+            S("YData.txt");
+            if (S.good() == true){
+                S >> Y;
+                S.close();
+            }
+        }
+        
+        g = matrix(n[0], 1);
+        
+        for (int j = 0; j < n[0]; ++j) {
+            for (int i = 0; i < m; ++i) {
+                h = (trans(x) * X[i])(0);
+                h = 1.0 / (1.0 + exp(-h));
+                g(j) = g(j) + X(j,i) * (h - Y(0,i));
+            }
+            g(j) = g(j)/m;
+        }
 
-
-#endif
+    #endif
 #endif
 	
 	++g_calls;
@@ -242,20 +294,20 @@ void solution::grad(matrix O)
 void solution::hess(matrix O)
 {
 #if LAB_NO == 5
-#if LAB_PART == 1
+    #if LAB_PART == 1
 
-    //H = NAN;  macierz 2x2 df^2/dx1^2  df^2/dx1x2
-    //                      df^2/dx1x2  df^2/dx2^2
+    // macierz 2x2 df^2/dx1^2  df^2/dx1x2
+    //             df^2/dx1x2  df^2/dx2^2
     H(0, 0) = 10;
     H(0, 1) = 8;
     H(1, 0) = 8;
     H(1, 1) = 10;
-#endif
-#if LAB_PART == 2
+    #endif
+    #if LAB_PART == 2
 
 
 
-#endif
+    #endif
 #endif
 
 	++H_calls;
