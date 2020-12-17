@@ -418,10 +418,7 @@ int main()
     #endif
     #if LAB_PART == 2
                 
-                
-    #endif
-    #if LAB_PART == 3
-                        
+        
                         
     #endif
 #endif

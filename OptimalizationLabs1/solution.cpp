@@ -234,11 +234,6 @@ void solution::fit_fun(matrix O)
         y(0) = y(0)/m;
         
         ++f_calls;
-        
-    #endif
-    #if LAB_PART == 3
-        
-        
     
     #endif
 #endif
