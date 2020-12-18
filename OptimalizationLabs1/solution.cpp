@@ -22,7 +22,7 @@ solution::solution(double L)
 
 solution::solution(const matrix& A)
 {
-	x = matrix(L);
+	x = A;
   g = matrix(2, 1);
   H = matrix(2, 2);
 	//y = nullptr;
@@ -210,7 +210,6 @@ void solution::fit_fun(matrix O)
         
         int m   = 100;
         int * n = get_size(x);
-        double h, d = 0.0;
         static matrix X(n[0], m), Y(1, m);
         
         if(solution::f_calls==0){
@@ -226,6 +225,8 @@ void solution::fit_fun(matrix O)
             }
         }
         
+        double h;
+        y = 0.0;
         for (int i = 0; i < m; ++i) {
             h = (trans(x) * X[i])(0);
             h = 1.0 / (1.0 + exp(-h));
@@ -254,7 +255,7 @@ void solution::grad(matrix O)
         int * n = get_size(x);
         double h;
         static matrix X(n[0], m), Y(1, m);
-        
+
         if(solution::g_calls==0){
             ifstream S("XData.txt");
             if (S.good() == true){
@@ -267,7 +268,7 @@ void solution::grad(matrix O)
                 S.close();
             }
         }
-        
+
         g = matrix(n[0], 1);
         
         for (int j = 0; j < n[0]; ++j) {
