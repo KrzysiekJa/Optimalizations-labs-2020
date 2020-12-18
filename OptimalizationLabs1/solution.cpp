@@ -211,7 +211,7 @@ void solution::fit_fun(matrix O)
         int m   = 100;
         int * n = get_size(x);
         double h, d = 0.0;
-        static matrix X(n[0], m); Y(1, m);
+        static matrix X(n[0], m), Y(1, m);
         
         if(solution::f_calls==0){
             ifstream S("XData.txt");
@@ -219,7 +219,7 @@ void solution::fit_fun(matrix O)
                 S >> X;
                 S.close();
             }
-            S("YData.txt");
+            S.open("YData.txt");
             if (S.good() == true){
                 S >> Y;
                 S.close();
@@ -254,7 +254,7 @@ void solution::grad(matrix O)
         int m   = 100;
         int * n = get_size(x);
         double h;
-        static matrix X(n[0], m); Y(1, m);
+        static matrix X(n[0], m), Y(1, m);
         
         if(solution::g_calls==0){
             ifstream S("XData.txt");
@@ -262,7 +262,7 @@ void solution::grad(matrix O)
                 S >> X;
                 S.close();
             }
-            S("YData.txt");
+            S.open("YData.txt");
             if (S.good() == true){
                 S >> Y;
                 S.close();
