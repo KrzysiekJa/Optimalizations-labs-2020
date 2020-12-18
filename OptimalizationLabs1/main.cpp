@@ -412,9 +412,33 @@ int main()
 
 #if LAB_NO == 5
     #if LAB_PART == 1
-        
-        
-        
+		random_device r;
+		double x1, x2;
+		double epsilon = 1e-5;
+		int Nmax = 10000;
+		matrix O(2, 2);
+		O(0, 0) = -10;
+		O(0, 1) = 10;
+		O(1, 0) = -10;
+		O(1, 1) = 10;
+		x1 = 20.0 * r() / r.max() - 10;
+		x2 = 20.0 * r() / r.max() - 10;
+		cout << x1 << ", " << x2 << endl;
+		matrix x0(new double[2]{ x1, x2 }, 2);
+
+		double d = 0.12;
+		solution::clear_calls();
+		solution sd = SD(x0, d, epsilon, Nmax, O);
+		cout << sd;
+
+		solution::clear_calls();
+		solution newton = Newton(x0, d, epsilon, Nmax, O);
+		cout << newton;
+
+		solution::clear_calls();
+		solution cg = CG(x0, d, epsilon, Nmax, O);
+		cout << cg;
+	
     #endif
     #if LAB_PART == 2
                 

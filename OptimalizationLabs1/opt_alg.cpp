@@ -424,7 +424,7 @@ solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix O) //metoda n
 		else //sta³okrokowa
 			X1.x = X.x + h0 * d;
 		if (norm(X1.x - X.x) < epsilon ||
-            norm(X.g) < epsilon ||
+			solution::g_calls > Nmax ||
 			solution::f_calls > Nmax)
 		{
 			X1.fit_fun();
@@ -443,9 +443,10 @@ solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 	solution h;
 	double b, beta;
 	X.grad();
-	d = - X.g;
+	d = -X.g;
 	while (true)
 	{
+	
 		P = set_col(P, X.x, 0);
 		P = set_col(P, d, 1);
 		if (h0 < 0)
@@ -456,8 +457,8 @@ solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 		}
 		else
 			X1.x = X.x + h0 * d;
-		if ((X1.x - X.x) < epsilon ||
-			norm(X.g) < epsilon ||
+		if (norm(X1.x - X.x) < epsilon ||
+			solution::g_calls > Nmax ||
 			solution::f_calls > Nmax)
 		{
 			X1.fit_fun();
@@ -465,7 +466,7 @@ solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 		}
 		X1.grad();
 		beta = pow(norm(X1.g), 2) / pow(norm(X.g), 2);
-		d = - X.g + beta * d;
+		d = - X1.g + beta * d;
 		X = X1;
 	}
 }
@@ -482,7 +483,7 @@ solution Newton(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 	{
 		X.grad();
 		X.hess();
-		d = X.g * inv(X.H);
+		d = -inv(X.H) * X.g;
 		P = set_col(P, X.x, 0);
 		P = set_col(P, d, 1);
 		if (h0 < 0)
@@ -493,10 +494,10 @@ solution Newton(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 		}
 		else
 			X1.x = X.x + h0 * d;
-		if ((X1.x - X.x) < epsilon ||
-			norm(X.g) < epsilon ||
-            det(X.H) == 0 ||
-			solution::f_calls > Nmax)
+		if (norm(X1.x - X.x) < epsilon ||
+			det(X.H) == 0  ||
+			solution::f_calls ||
+			solution::g_calls > Nmax)
 		{
 			X1.fit_fun();
 			return X1;
@@ -507,7 +508,7 @@ solution Newton(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 
 solution golden(double a, double b, double epsilon, int Nmax, matrix O)
 {
-	double alfa = (sqrt(5) - 1) / 2;
+	double alfa = (sqrt(5.) - 1) / 2;
 	solution A, B, C, D;
 	A.x = a;
 	B.x = b;
@@ -531,7 +532,7 @@ solution golden(double a, double b, double epsilon, int Nmax, matrix O)
 			D.x = A.x + alfa * (B.x - A.x);
 			D.fit_fun(O);
 		}
-		if (B.x - A.x < epsilon)
+		if (B.x - A.x < epsilon || solution::f_calls > Nmax)
 		{
 			A.x = (A.x + B.x) / 2.0;
 			A.fit_fun(O);
