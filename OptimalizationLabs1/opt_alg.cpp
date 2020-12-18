@@ -1,6 +1,7 @@
 #include "opt_alg.h"
 #include <fstream>
 #include <cmath>
+#include <string>
 
 #if LAB_NO>1
 double* expansion(double x0, double d, double alfa, int Nmax, matrix O)
@@ -403,6 +404,12 @@ solution sym_NM(matrix x0, double s, double alfa, double beta, double gama, doub
 #if LAB_NO>4
 solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix O) //metoda najszybszego spadku
 {
+	/*fstream plik;
+	string filename = "..//SDsym";
+	filename += to_string(h0);
+	filename += ".csv";
+	plik.open(filename, ios::out | ios::trunc);*/
+
 	int* n = get_size(x0);
 	solution X, X1;
 	X.x = x0;
@@ -428,14 +435,23 @@ solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix O) //metoda n
 			solution::f_calls > Nmax)
 		{
 			X1.fit_fun();
+			//plik << X1.x(0) << ";" << X1.x(1) << endl;
+			//plik.close();
 			return X1;
 		}
 		X = X1;
+		//plik << X1.x(0) << ";" << X1.x(1) << endl;
 	}
 }
 
 solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 {
+	/*fstream plik;
+	string filename = "..//CGsym";
+	filename += to_string(h0);
+	filename += ".csv";
+	plik.open(filename, ios::out | ios::trunc);*/
+
 	int* n = get_size(x0);
 	solution X, X1;
 	X.x = x0;
@@ -462,17 +478,26 @@ solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 			solution::f_calls > Nmax)
 		{
 			X1.fit_fun();
+			//plik << X1.x(0) << ";" << X1.x(1) << endl;
+			//plik.close();
 			return X1;
 		}
 		X1.grad();
 		beta = pow(norm(X1.g), 2) / pow(norm(X.g), 2);
 		d = - X1.g + beta * d;
 		X = X1;
+		//plik << X1.x(0) << ";" << X1.x(1) << endl;
 	}
 }
 
 solution Newton(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 {
+	/*fstream plik;
+	string filename = "..//Newtonsym";
+	filename += to_string(h0);
+	filename += ".csv";
+	plik.open(filename, ios::out | ios::trunc);*/
+
 	int* n = get_size(x0);
 	solution X, X1;
 	X.x = x0;
@@ -496,13 +521,16 @@ solution Newton(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 			X1.x = X.x + h0 * d;
 		if (norm(X1.x - X.x) < epsilon ||
 			det(X.H) == 0  ||
-			solution::f_calls ||
+			solution::f_calls > Nmax ||
 			solution::g_calls > Nmax)
 		{
 			X1.fit_fun();
+			//plik << X1.x(0) << ";" << X1.x(1) << endl;
+			//plik.close();
 			return X1;
 		}
 		X = X1;
+		//plik << X1.x(0) << ";" << X1.x(1) << endl;
 	}
 }
 
