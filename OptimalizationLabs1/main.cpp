@@ -412,6 +412,7 @@ int main()
 
 #if LAB_NO == 5
     #if LAB_PART == 1
+
 		random_device r;
 		double x1, x2;
 		double epsilon = 1e-5;
@@ -421,23 +422,159 @@ int main()
 		O(0, 1) = 10;
 		O(1, 0) = -10;
 		O(1, 1) = 10;
-		x1 = 20.0 * r() / r.max() - 10;
-		x2 = 20.0 * r() / r.max() - 10;
-		cout << x1 << ", " << x2 << endl;
-		matrix x0(new double[2]{ x1, x2 }, 2);
 
-		double d = 0.12;
-		solution::clear_calls();
-		solution sd = SD(x0, d, epsilon, Nmax, O);
-		cout << sd;
+		double temp_x1[100];
+		double temp_x2[100];
 
-		solution::clear_calls();
-		solution newton = Newton(x0, d, epsilon, Nmax, O);
-		cout << newton;
+		/*ofstream x100("..//x100.csv");
+		for (int i = 0; i < 100; i++) {
+			temp_x1[i] = 20.0 * r() / r.max() - 10;
+			temp_x2[i] = 20.0 * r() / r.max() - 10;
+			x100 << temp_x1[i] <<" " << temp_x2[i] << endl;
+		}
+		x100.close();
 
+		ofstream x100_csv("..//x100_csv.csv");
+		for (int i = 0; i < 100; i++) {
+			x100_csv << temp_x1[i] << ";" << temp_x2[i] << endl;
+		}
+		x100_csv.close();
+		system("pause");*/
+		
+		/*
+		fstream x100in;
+		x100in.open("..//x100.csv", ios::in);
+		if (x100in.good() == true)
+		{
+			for (int i = 0; i < 100; i++)
+			{
+				x100in >> temp_x1[i];
+				x100in >> temp_x2[i];
+			}
+			x100in.close();
+		}
+		else {
+			cout << "file error";
+			system("pause");
+		}
+
+		//spadek
+		ofstream sd("..//SD.csv");
+		for (int i = 0; i < 100; i++) {
+			solution sd1;
+			double d;
+			matrix x0(new double[2]{ temp_x1[i], temp_x2[i] }, 2);
+
+			solution::clear_calls();
+			d = 0.05;
+			sd1 = SD(x0, d, epsilon, Nmax, O);
+			sd << sd1.x(0) << ";" << sd1.x(1) << ";" << sd1.y << solution::f_calls <<";"<< solution::g_calls <<endl;
+
+			solution::clear_calls();
+			d = 0.12;
+			sd1 = SD(x0, d, epsilon, Nmax, O);
+			sd << sd1.x(0) << ";" << sd1.x(1) << ";" << sd1.y << solution::f_calls << ";" << solution::g_calls << endl;
+
+			solution::clear_calls();
+			d = -1.;
+			sd1 = SD(x0, d, epsilon, Nmax, O);
+			sd << sd1.x(0) << ";" << sd1.x(1) << ";" << sd1.y << solution::f_calls << ";" << solution::g_calls << endl;
+		}
+		sd.close();
+
+		//gradienty
+		ofstream cg("..//CG.csv");
+		for (int i = 0; i < 100; i++) {
+			solution cg1;
+			double d;
+			matrix x0(new double[2]{ temp_x1[i], temp_x2[i] }, 2);
+
+			solution::clear_calls();
+			d = 0.05;
+			cg1 = CG(x0, d, epsilon, Nmax, O);
+			cg << cg1.x(0) << ";" << cg1.x(1) << ";" << cg1.y << solution::f_calls << ";" << solution::g_calls << endl;
+
+			solution::clear_calls();
+			d = 0.12;
+			cg1 = CG(x0, d, epsilon, Nmax, O);
+			cg << cg1.x(0) << ";" << cg1.x(1) << ";" << cg1.y << solution::f_calls << ";" << solution::g_calls << endl;
+
+			solution::clear_calls();
+			d = -1.;
+			cg1 = CG(x0, d, epsilon, Nmax, O);
+			cg << cg1.x(0) << ";" << cg1.x(1) << ";" << cg1.y << solution::f_calls << ";" << solution::g_calls << endl;
+		}
+		cg.close();
+
+		//newton
+		ofstream nt("..//Newton.csv");
+		for (int i = 0; i < 100; i++) {
+			solution nt1;
+			double d;
+			matrix x0(new double[2]{ temp_x1[i], temp_x2[i] }, 2);
+
+			solution::clear_calls();
+			d = 0.05;
+			nt1 = Newton(x0, d, epsilon, Nmax, O);
+			nt << nt1.x(0) << ";" << nt1.x(1) << ";" << nt1.y << solution::f_calls << ";" << solution::g_calls << ";" << solution::H_calls << endl;
+
+			solution::clear_calls();
+			d = 0.12;
+			nt1 = Newton(x0, d, epsilon, Nmax, O);
+			nt << nt1.x(0) << ";" << nt1.x(1) << ";" << nt1.y << solution::f_calls << ";" << solution::g_calls << ";" << solution::H_calls << endl;
+
+			solution::clear_calls();
+			d = -1.;
+			nt1 = Newton(x0, d, epsilon, Nmax, O);
+			nt << nt1.x(0) << ";" << nt1.x(1) << ";" << nt1.y << solution::f_calls << ";" << solution::g_calls << ";" << solution::H_calls << endl;
+		}
+		nt.close();
+		*/
+
+		matrix x0(new double[2]{ 2.55987, 6.28687 }, 2);
+		double d;
+		solution sd1;
+		solution cg1;
+		solution newton;
+
+		d = 0.05;
 		solution::clear_calls();
-		solution cg = CG(x0, d, epsilon, Nmax, O);
-		cout << cg;
+		sd1 = SD(x0, d, epsilon, Nmax, O);
+
+		d = 0.12;
+		solution::clear_calls();
+		sd1 = SD(x0, d, epsilon, Nmax, O);
+
+		d = -1;
+		solution::clear_calls();
+		sd1 = SD(x0, d, epsilon, Nmax, O);
+
+		d = 0.05;
+		solution::clear_calls();
+		cg1 = CG(x0, d, epsilon, Nmax, O);
+
+		d = 0.12;
+		solution::clear_calls();
+		cg1 = CG(x0, d, epsilon, Nmax, O);
+
+		d = -1;
+		solution::clear_calls();
+		cg1 = CG(x0, d, epsilon, Nmax, O);
+
+		d = 0.05;
+		solution::clear_calls();
+		newton = Newton(x0, d, epsilon, Nmax, O);
+
+		d = 0.12;
+		solution::clear_calls();
+		newton = Newton(x0, d, epsilon, Nmax, O);
+
+		d =-1;
+		solution::clear_calls();
+		newton = Newton(x0, d, epsilon, Nmax, O);
+
+		
+
 	
     #endif
     #if LAB_PART == 2

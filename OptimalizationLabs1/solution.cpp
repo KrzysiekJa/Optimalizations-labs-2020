@@ -15,24 +15,24 @@ int solution::H_calls = 0;
 solution::solution(double L)
 {
 	x = matrix(L);
-    g = matrix(2, 1);
-    H = matrix(2, 2);
+  g = matrix(2, 1);
+  H = matrix(2, 2);
 	//y = nullptr;
 }
 
 solution::solution(const matrix& A)
 {
-	x = A;
-    g = matrix(new double[2]{ 0.,0. }, 2);
-    H = matrix(2, 2);
+	x = matrix(L);
+  g = matrix(2, 1);
+  H = matrix(2, 2);
 	//y = nullptr;
 }
 
 solution::solution(double* A, int n)
 {
 	x = matrix(A, n);
-    g = matrix(new double[2]{ 0.,0. }, 2);
-    H = matrix(2, 2);
+  g = matrix(new double[2]{ 0.,0. }, 2);
+  H = matrix(2, 2);
 	//y = nullptr;
 }
 
@@ -243,7 +243,6 @@ void solution::grad(matrix O)
 {
 #if LAB_NO == 5
     #if LAB_PART == 1
-
     //wektor 2 elem =df/dx1  i  df/dx2
     g(0) = 10 * x(0) + 8 * x(1) - 34;
     g(1) = 8 * x(0) + 10 * x(1) - 38;
@@ -289,7 +288,7 @@ void solution::grad(matrix O)
 void solution::hess(matrix O)
 {
 #if LAB_NO == 5
-
+ 
     // macierz 2x2 df^2/dx1^2  df^2/dx1x2
     //             df^2/dx1x2  df^2/dx2^2
     H(0, 0) = 10;
