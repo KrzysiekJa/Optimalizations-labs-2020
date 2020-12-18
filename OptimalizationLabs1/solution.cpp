@@ -15,24 +15,24 @@ int solution::H_calls = 0;
 solution::solution(double L)
 {
 	x = matrix(L);
-	//g = nullptr;
-	//H = nullptr;
+    g = matrix(2, 1);
+    H = matrix(2, 2);
 	//y = nullptr;
 }
 
 solution::solution(const matrix& A)
 {
 	x = A;
-	//g = nullptr;
-	//H = nullptr;
+    g = matrix(new double[2]{ 0.,0. }, 2);
+    H = matrix(2, 2);
 	//y = nullptr;
 }
 
 solution::solution(double* A, int n)
 {
 	x = matrix(A, n);
-	//g = nullptr;
-	//H = nullptr;
+    g = matrix(new double[2]{ 0.,0. }, 2);
+    H = matrix(2, 2);
 	//y = nullptr;
 }
 
@@ -193,7 +193,7 @@ void solution::fit_fun(matrix O)
 #if LAB_NO == 5
     #if LAB_PART == 1
     
-        int * n = get_size(O[0]);
+        int * n = get_size(O);
      
         if(n[1] == 1){
             y = pow(x(0) + 2*x(1) - 7, 2) + pow(2*x(0) + x(1) - 5, 2);
