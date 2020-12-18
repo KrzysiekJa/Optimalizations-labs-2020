@@ -578,8 +578,30 @@ int main()
 	
     #endif
     #if LAB_PART == 2
-                
-                        
+		double epsilon = 1e-5;
+        int Nmax = 10000;
+        /*matrix O(2, 2);
+        O(0, 0) = 25;
+        O(0, 1) = 100;
+        O(1, 0) = 25;
+        O(1, 1) = 100;
+        matrix x0(new double[3]{ 0., 0., 0.}, 3);*/
+
+		matrix x0(3, 1);
+		x0(0) = x0(1) = x0(2) = 0.0;
+        
+        solution::clear_calls();
+        solution cg = SD(x0, 0.01, epsilon, Nmax);
+        cout << cg << endl;
+        
+        solution::clear_calls();
+        solution cg2 = SD(x0, 0.001, epsilon, Nmax);
+        cout << cg2 << endl;
+
+        solution::clear_calls();
+        solution cg3 = SD(x0, 0.0001, epsilon, Nmax);
+        cout << cg3 << endl;
+
     #endif
 #endif
 	}
