@@ -289,7 +289,6 @@ void solution::grad(matrix O)
 void solution::hess(matrix O)
 {
 #if LAB_NO == 5
-    #if LAB_PART == 1
 
     // macierz 2x2 df^2/dx1^2  df^2/dx1x2
     //             df^2/dx1x2  df^2/dx2^2
@@ -297,12 +296,7 @@ void solution::hess(matrix O)
     H(0, 1) = 8;
     H(1, 0) = 8;
     H(1, 1) = 10;
-    #endif
-    #if LAB_PART == 2
-
-
-
-    #endif
+    
 #endif
 
 	++H_calls;

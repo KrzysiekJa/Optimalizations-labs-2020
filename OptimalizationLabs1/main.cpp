@@ -441,9 +441,27 @@ int main()
 	
     #endif
     #if LAB_PART == 2
-                
+        double epsilon = 1e-5;
+        int Nmax = 10000;
+        matrix O(2, 2);
+        O(0, 0) = 25;
+        O(0, 1) = 100;
+        O(1, 0) = 25;
+        O(1, 1) = 100;
+        matrix x0(new double[3]{ 0., 0., 0.}, 3);
         
-                        
+        solution::clear_calls();
+        solution sd = SD(x0, 0.01, epsilon, Nmax, O);
+        cout << sd << endl;
+        
+        solution::clear_calls();
+        solution sd = SD(x0, 0.001, epsilon, Nmax, O);
+        cout << sd << endl;
+
+        solution::clear_calls();
+        solution sd = SD(x0, 0.0001, epsilon, Nmax, O);
+        cout << sd << endl;
+        
     #endif
 #endif
 	}
