@@ -24,6 +24,7 @@ public:
 	void fit_fun(matrix = 0.0);
 	void grad(matrix = 0.0);
 	void hess(matrix = 0.0);
+	static double a;
 };
 
 #endif
