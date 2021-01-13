@@ -272,7 +272,7 @@ void solution::fit_fun(matrix O)
             solution T;
             matrix yn(2, 1);
             
-            T = O[0] + x * O[1];
+            T.x = O[0] + x * O[1];
             T.fit_fun();
             yn(0) = (T.y(0) - f1min) / (f1max - f1min);
             yn(1) = (T.y(1) - f2min) / (f2max - f2min);
