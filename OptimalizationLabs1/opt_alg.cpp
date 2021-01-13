@@ -592,26 +592,24 @@ double compute_b(matrix x, matrix d, matrix limits)
 solution Powell(matrix x0, double epsilon, int Nmax, matrix O)
 {
 	int* n = get_size(x0);
-	//matrix D = ident_mat(n[0]), A(n[0], 3), limits(n[0], 2);
-
 	matrix L(n[0], n[0]);
 	for (int i = 0; i < n[0]; i++) {
 		L(i, i) = 1;
 	}
 
 	matrix D = L, A(n[0], 3), limits(n[0], 2);
-
-
 	limits = set_col(limits, O[0], 0);
 	limits = set_col(limits, O[1], 1);
 	A(0, 2) = O(0, 2);
 	solution X, P, h;
 	X.x = x0;
-	double* ab;
+	double* ab = new double[2];
+
 	while (true)
 	{
 		P = X.x;
-		for (int i = 0; i < n[0] ; ++i)
+
+		for (int i = 0; i < n[0]; ++i)
 		{
 			A = set_col(A, P.x, 0);
 			A = set_col(A, D[i], 1);
@@ -619,6 +617,8 @@ solution Powell(matrix x0, double epsilon, int Nmax, matrix O)
 			h = golden(ab[0], ab[1], epsilon, Nmax, A);
 			P.x = P.x + h.x * D[i];
 		}
+
+
 		if (norm(X.x - P.x) < epsilon || solution::f_calls > Nmax)
 		{
 			P.fit_fun();
