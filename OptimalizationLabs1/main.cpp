@@ -185,7 +185,7 @@ int main()
 		random_device r;
 		double temp_x1[100];
 		double temp_x2[100];
-		
+
 		/*a = 4.;
 		ofstream x4("..//x4.csv");
 		for (int i = 0; i < 100; i++) {
@@ -301,117 +301,117 @@ int main()
 			pen_zew5 << temp_x1[i] << ";" << temp_x2[i] << ";" << X1.x(0) << ";" << X1.x(1) << ";" << X1.y << solution::f_calls << endl;
 		}
 		pen_zew5.close();
-	
+
 #endif
 #if LAB_PART ==2
-		 double dc = 0.5;
+		double dc = 0.5;
 
-		 fstream x4in;
-		 x4in.open("..//x4.csv", ios::in);
-		 if (x4in.good() == true)
-		 {
-			 for (int i = 0; i < 100; i++)
-			 {
-				 x4in >> temp_x1[i];
-				 x4in >> temp_x2[i];
-			 }
-			 x4in.close();
-		 }
-		 else {
-			 cout << "file error";
-			 system("pause");
-		 }
+		fstream x4in;
+		x4in.open("..//x4.csv", ios::in);
+		if (x4in.good() == true)
+		{
+			for (int i = 0; i < 100; i++)
+			{
+				x4in >> temp_x1[i];
+				x4in >> temp_x2[i];
+			}
+			x4in.close();
+		}
+		else {
+			cout << "file error";
+			system("pause");
+		}
 
-		 a = 4.;
-		 ofstream pen_wew4("..//pen_wew4.csv");
-		 for (int i = 0; i < 100; i++) {
-			 solution::clear_calls();
-			 matrix O(a);
-			 matrix x0(new double[2]{ temp_x1[i], temp_x2[i] }, 2);
-			 solution X1 = pen(x0, c0, dc, epsilon, Nmax, O);
-			 pen_wew4 << temp_x1[i] << ";" << temp_x2[i] << ";" << X1.x(0) << ";" << X1.x(1) << ";" << X1.y << solution::f_calls << endl;
-		 }
-		 pen_wew4.close();
+		a = 4.;
+		ofstream pen_wew4("..//pen_wew4.csv");
+		for (int i = 0; i < 100; i++) {
+			solution::clear_calls();
+			matrix O(a);
+			matrix x0(new double[2]{ temp_x1[i], temp_x2[i] }, 2);
+			solution X1 = pen(x0, c0, dc, epsilon, Nmax, O);
+			pen_wew4 << temp_x1[i] << ";" << temp_x2[i] << ";" << X1.x(0) << ";" << X1.x(1) << ";" << X1.y << solution::f_calls << endl;
+		}
+		pen_wew4.close();
 
-		 /////
+		/////
 
-		 fstream x49in;
-		 x49in.open("..//x49.csv", ios::in);
-		 if (x49in.good() == true)
-		 {
-			 for (int i = 0; i < 100; i++)
-			 {
-				 x49in >> temp_x1[i];
-				 x49in >> temp_x2[i];
-			 }
-			 x49in.close();
-		 }
-		 else {
-			 cout << "file error";
-			 system("pause");
-		 }
+		fstream x49in;
+		x49in.open("..//x49.csv", ios::in);
+		if (x49in.good() == true)
+		{
+			for (int i = 0; i < 100; i++)
+			{
+				x49in >> temp_x1[i];
+				x49in >> temp_x2[i];
+			}
+			x49in.close();
+		}
+		else {
+			cout << "file error";
+			system("pause");
+		}
 
-		 a = 4.4934;
-		 ofstream pen_wew49("..//pen_wew49.csv");
-		 for (int i = 0; i < 100; i++) {
-			 solution::clear_calls();
-			 matrix O(a);
-			 matrix x0(new double[2]{ temp_x1[i], temp_x2[i] }, 2);
-			 solution X1 = pen(x0, c0, dc, epsilon, Nmax, O);
-			 pen_wew49 << temp_x1[i] << ";" << temp_x2[i] << ";" << X1.x(0) << ";" << X1.x(1) << ";" << X1.y << solution::f_calls << endl;
-		 }
-		 pen_wew49.close();
+		a = 4.4934;
+		ofstream pen_wew49("..//pen_wew49.csv");
+		for (int i = 0; i < 100; i++) {
+			solution::clear_calls();
+			matrix O(a);
+			matrix x0(new double[2]{ temp_x1[i], temp_x2[i] }, 2);
+			solution X1 = pen(x0, c0, dc, epsilon, Nmax, O);
+			pen_wew49 << temp_x1[i] << ";" << temp_x2[i] << ";" << X1.x(0) << ";" << X1.x(1) << ";" << X1.y << solution::f_calls << endl;
+		}
+		pen_wew49.close();
 
-		 /////////
+		/////////
 
-		 fstream x5in;
-		 x5in.open("..//x5.csv", ios::in);
-		 if (x5in.good() == true)
-		 {
-			 for (int i = 0; i < 100; i++)
-			 {
-				 x5in >> temp_x1[i];
-				 x5in >> temp_x2[i];
-			 }
-			 x5in.close();
-		 }
-		 else {
-			 cout << "file error";
-			 system("pause");
-		 }
+		fstream x5in;
+		x5in.open("..//x5.csv", ios::in);
+		if (x5in.good() == true)
+		{
+			for (int i = 0; i < 100; i++)
+			{
+				x5in >> temp_x1[i];
+				x5in >> temp_x2[i];
+			}
+			x5in.close();
+		}
+		else {
+			cout << "file error";
+			system("pause");
+		}
 
-		 a = 5.;
-		 ofstream pen_wew5("..//pen_wew5.csv");
-		 for (int i = 0; i < 100; i++) {
-			 solution::clear_calls();
-			 matrix O(a);
-			 matrix x0(new double[2]{ temp_x1[i], temp_x2[i] }, 2);
-			 solution X1 = pen(x0, c0, dc, epsilon, Nmax, O);
-			 pen_wew5 << temp_x1[i] << ";" << temp_x2[i] << ";" << X1.x(0) << ";" << X1.x(1) << ";" << X1.y << solution::f_calls << endl;
-		 }
-		 pen_wew5.close();
+		a = 5.;
+		ofstream pen_wew5("..//pen_wew5.csv");
+		for (int i = 0; i < 100; i++) {
+			solution::clear_calls();
+			matrix O(a);
+			matrix x0(new double[2]{ temp_x1[i], temp_x2[i] }, 2);
+			solution X1 = pen(x0, c0, dc, epsilon, Nmax, O);
+			pen_wew5 << temp_x1[i] << ";" << temp_x2[i] << ";" << X1.x(0) << ";" << X1.x(1) << ";" << X1.y << solution::f_calls << endl;
+		}
+		pen_wew5.close();
 
-		 #endif
-    #if LAB_PART ==3
-        
-        double dc = 2., c = 1.0;
-        
-        solution::clear_calls();
+#endif
+#if LAB_PART ==3
+
+		double dc = 2., c = 1.0;
+
+		solution::clear_calls();
 		matrix O(new double[2]{ 1.,1. }, 2);
-        matrix x0(new double[2]{ 2.0, 2.0 }, 2);
-        solution simulation = pen(x0, c, dc, epsilon, Nmax, O);
+		matrix x0(new double[2]{ 2.0, 2.0 }, 2);
+		solution simulation = pen(x0, c, dc, epsilon, Nmax, O);
 		cout << simulation;
-        matrix Y0(new double[]{0.0, 2.0, 100.0, 0.0}, 4);
-        matrix * Y = solve_ode(0.0, 0.01, 7.0, Y0, 2.0);
-        ofstream file("..//simulation.csv");
-        file << Y[1];
+		matrix Y0(new double[] {0.0, 2.0, 100.0, 0.0}, 4);
+		matrix* Y = solve_ode(0.0, 0.01, 7.0, Y0, 2.0);
+		ofstream file("..//simulation.csv");
+		file << Y[1];
 		file.close();
 
-    #endif
+#endif
 #endif
 
 #if LAB_NO == 5
-    #if LAB_PART == 1
+#if LAB_PART == 1
 
 		random_device r;
 		double x1, x2;
@@ -440,7 +440,7 @@ int main()
 		}
 		x100_csv.close();
 		system("pause");*/
-		
+
 		/*
 		fstream x100in;
 		x100in.open("..//x100.csv", ios::in);
@@ -569,39 +569,39 @@ int main()
 		solution::clear_calls();
 		newton = Newton(x0, d, epsilon, Nmax, O);
 
-		d =-1;
+		d = -1;
 		solution::clear_calls();
 		newton = Newton(x0, d, epsilon, Nmax, O);
 
-		
 
-	
-    #endif
-    #if LAB_PART == 2
+
+
+#endif
+#if LAB_PART == 2
 		double epsilon = 1e-7;
-        int Nmax = 10000;
-        /*matrix O(2, 2);
-        O(0, 0) = 25;
-        O(0, 1) = 100;
-        O(1, 0) = 25;
-        O(1, 1) = 100;
+		int Nmax = 10000;
+		/*matrix O(2, 2);
+		O(0, 0) = 25;
+		O(0, 1) = 100;
+		O(1, 0) = 25;
+		O(1, 1) = 100;
 		*/
 
-        matrix x0(new double[3]{ 0., 0., 0.}, 3);
-        
-        solution::clear_calls();
-        solution cg = CG(x0, 0.01, epsilon, Nmax);
-        cout << cg << endl;
-        
-        solution::clear_calls();
-        solution cg2 = CG(x0, 0.001, epsilon, Nmax);
-        cout << cg2 << endl;
+		matrix x0(new double[3]{ 0., 0., 0. }, 3);
 
-        solution::clear_calls();
-        solution cg3 = CG(x0, 0.0001, epsilon, Nmax);
-        cout << cg3 << endl;
+		solution::clear_calls();
+		solution cg = CG(x0, 0.01, epsilon, Nmax);
+		cout << cg << endl;
 
-    #endif
+		solution::clear_calls();
+		solution cg2 = CG(x0, 0.001, epsilon, Nmax);
+		cout << cg2 << endl;
+
+		solution::clear_calls();
+		solution cg3 = CG(x0, 0.0001, epsilon, Nmax);
+		cout << cg3 << endl;
+
+#endif
 #endif
 #if LAB_NO == 6
 		matrix x0(2, 1);
@@ -615,7 +615,7 @@ int main()
 		O(0, 2) = 0.5;
 
 		random_device R;
-		int a[3] = { 1, 10, 100 };
+		/*int a[3] = { 1, 10, 100 };
 		ofstream plik("Powell.csv");
 
 		for (int i = 0; i < 100; i++) {
@@ -623,16 +623,17 @@ int main()
 			x0(1) = 20.0 * R() / R.max() - 10.0;
 			plik << x0(0) << "," << x0(1) << ",";
 
-			for (int j = 0; j < 3; j++) {
-				solution p = Powell(x0, epsilon, Nmax, O);
-
-				plik << p.x(0) << "," << p.x(1) << "," << p.y(0)
-					<< "," << p.y(1) << "," << solution::f_calls << ",";
-				solution::clear_calls();
-			}
-			plik << endl;
-			O(0, 2) += 0.01;
-		}
+			for (int j = 0; j < 3; j++) {*/
+			//solution::a = a[j];
+		solution p = Powell(x0, epsilon, Nmax, O);
+		cout << p;
+		/*plik << p.x(0) << "," << p.x(1) << "," << p.y(0)
+			<< "," << p.y(1) << "," << solution::f_calls << ",";
+		solution::clear_calls();
+	}
+	plik << endl;*/
+	//O(0, 2) += 0.01;
+	
 
 #endif
 	}

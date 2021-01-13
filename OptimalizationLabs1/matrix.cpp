@@ -363,7 +363,7 @@ matrix ident_mat(int nv = 1)
 	return A;
 }
 
-matrix set_col(const matrix &A, matrix &c, int n)
+matrix set_col(const matrix &A, const matrix &c, int n)
 {
 	if (n >= A.m || n < 0)
 		throw "Index exceeds matrix dimentions";
