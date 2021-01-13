@@ -601,6 +601,7 @@ int main()
 #endif
 #endif
 #if LAB_NO == 6
+		#if LAB_PART == 1
 		matrix x0(2, 1);
 		double epsilon = 0.00001;
 		int Nmax = 100000;
@@ -630,6 +631,27 @@ int main()
 			plik << endl;
 			O(0, 2) += 0.01;
 		}
+#endif
+		#if LAB_PART == 2
+
+		matrix x0(2,1);
+		matrix O(2, 3);
+		double epsilon = 1e-3;
+		int Nmax = 5000;
+		random_device R;
+		O(0, 0) = 0.2;
+		O(0, 1) = 1;
+		O(1, 0) = 0.01;
+		O(1, 1) = 0.05;
+		double w = 1;
+		x0(0) = (O(0, 1) - O(0, 0)) * R() / R.max() + O(0, 0);
+		x0(1) = (O(1, 1) - O(1, 0)) * R() / R.max() + O(1, 0);
+		O(0, 2) = w;
+		solution opt = Powell(x0, epsilon, Nmax, O);
+		cout << opt << endl;
+		solution::clear_calls();
+
+#endif
 #endif
 	}
 	catch (char* EX_INFO)
