@@ -259,6 +259,7 @@ void solution::fit_fun(matrix O)
     #endif
     #if LAB_PART == 2
         int* n = get_size(O);
+        double f1min, f1max, f2min, f2max;
 
         if (n[1] == 1) {
             y = matrix(1, 3);
@@ -284,6 +285,19 @@ void solution::fit_fun(matrix O)
             if(T.y(1) > 300e6){
                 y += 1e6 * pow(T.y(2) - 300e6, 2);
             }
+        }
+        
+        if(y(0) < f1min){
+            f1min = y(0);
+        }
+        if(y(0) > f1max){
+            f1max = y(0);
+        }
+        if(y(1) < f2min){
+            f2min = y(1);
+        }
+        if(y(1) > f2max){
+            f2max = y(1);
         }
         
     #endif
