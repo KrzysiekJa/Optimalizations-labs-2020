@@ -11,6 +11,7 @@
 int solution::f_calls = 0;
 int solution::g_calls = 0;
 int solution::H_calls = 0;
+double solution::a = 0;
 
 solution::solution(double L)
 {
@@ -245,8 +246,8 @@ void solution::fit_fun(matrix O)
 
         if (n[1] == 1) {
             y = matrix(2, 1);
-            y(0) = 1 * (pow(x(0) - 5, 2) + pow(x(1) - 5, 2));
-            y(1) = 1 * (pow(x(0) + 5, 2) + pow(x(1) + 5, 2));
+            y(0) = a * (pow(x(0) - 5, 2) + pow(x(1) - 5, 2));
+            y(1) = 1 / a * (pow(x(0) + 5, 2) + pow(x(1) + 5, 2));
             ++f_calls;
         }
         else {
