@@ -240,7 +240,7 @@ void solution::fit_fun(matrix O)
 #endif
 
 #if LAB_NO == 6
-#if LAB_PART == 1
+    #if LAB_PART == 1
         int* n = get_size(O);
 
         if (n[1] == 1) {
@@ -255,7 +255,37 @@ void solution::fit_fun(matrix O)
             temp.fit_fun();
             y = O(0, 2) * temp.y(0) + (1 - O(0, 2)) * temp.y(1);
         }
-#endif
+    #endif
+    #if LAB_PART == 2
+        int* n = get_size(O);
+
+        if (n[1] == 1) {
+            y = matrix(1, 3);
+            double r0 = 7800, P = 1e3, E = 107e9;
+            
+            y(0) = ro * x(0) * M_PI * pow(x(1), 2) /4;
+            y(1) = 64 * P * pow(x(0), 3) / (3 * E * M_PI * pow(x(1), 4));
+            y(2) = 32 * P * x(0) / (M_PI * pow(x(1), 3));
+            ++f_calls;
+        } else {
+            solution T;
+            matrix yn(2, 1);
+            
+            T = O[0] + x * O[1];
+            T.fit_fun();
+            yn(0) = (T.y(0) - f1min) / (f1max - f1min);
+            yn(1) = (T.y(1) - f2min) / (f2max - f2min);
+            y = O(0, 2) * yn(0) + (1 - O(0, 2)) * yn(1);
+            
+            if(T.y(1) > 0.005){
+                y += 1e6 * pow(T.y(1) - 0.005, 2);
+            }
+            if(T.y(1) > 300e6){
+                y += 1e6 * pow(T.y(2) - 300e6, 2);
+            }
+        }
+        
+    #endif
 #endif
 }
 
