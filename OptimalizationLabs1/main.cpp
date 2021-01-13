@@ -603,6 +603,39 @@ int main()
 
     #endif
 #endif
+#if LAB_NO == 6
+		matrix x0(2, 1);
+		double epsilon = 0.00001;
+		int Nmax = 100000;
+		matrix O(2, 3);
+		O(0, 0) = -10.0;
+		O(0, 1) = 10.0;
+		O(1, 0) = -10.0;
+		O(1, 1) = 10.0;
+		O(0, 2) = 0.5;
+
+		random_device R;
+		int a[3] = { 1, 10, 100 };
+		ofstream plik("Powell.csv");
+
+		for (int i = 0; i < 100; i++) {
+			x0(0) = 20.0 * R() / R.max() - 10.0;
+			x0(1) = 20.0 * R() / R.max() - 10.0;
+			plik << x0(0) << "," << x0(1) << ",";
+
+			for (int j = 0; j < 3; j++) {
+				solution::a = a[j];
+				solution p = Powell(x0, epsilon, Nmax, O);
+
+				plik << p.x(0) << "," << p.x(1) << "," << p.y(0)
+					<< "," << p.y(1) << "," << solution::f_calls << ",";
+				solution::clear_calls();
+			}
+			plik << endl;
+			O(0, 2) += 0.01;
+		}
+
+#endif
 	}
 	catch (char* EX_INFO)
 	{

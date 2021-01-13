@@ -238,6 +238,25 @@ void solution::fit_fun(matrix O)
     
     #endif
 #endif
+
+#if LAB_NO == 6
+#if LAB_PART == 1
+        int* n = get_size(O);
+
+        if (n[1] == 1) {
+            y = matrix(2, 1);
+            y(0) = 1 * (pow(x(0) - 5, 2) + pow(x(1) - 5, 2));
+            y(1) = 1 * (pow(x(0) + 5, 2) + pow(x(1) + 5, 2));
+            ++f_calls;
+        }
+        else {
+            solution temp;
+            temp.x = O[0] + x * O[1];
+            temp.fit_fun();
+            y = O(0, 2) * temp.y(0) + (1 - O(0, 2)) * temp.y(1);
+        }
+#endif
+#endif
 }
 
 void solution::grad(matrix O)
