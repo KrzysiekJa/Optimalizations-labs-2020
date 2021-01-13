@@ -624,7 +624,7 @@ int main()
 			plik << x0(0) << "," << x0(1) << ",";
 
 			for (int j = 0; j < 3; j++) {
-				solution::a = a[j];
+				//solution::a = a[j];
 				solution p = Powell(x0, epsilon, Nmax, O);
 
 				plik << p.x(0) << "," << p.x(1) << "," << p.y(0)
