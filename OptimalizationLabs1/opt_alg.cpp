@@ -600,7 +600,7 @@ solution Powell(matrix x0, double epsilon, int Nmax, matrix O)
 	}
 
 	matrix D = L, A(n[0], 3), limits(n[0], 2);
-
+	//matrix D = ident_mat(n[0], A(n[0], 3), limits(n[0], 2));
 
 	limits = set_col(limits, O[0], 0);
 	limits = set_col(limits, O[1], 1);
@@ -615,11 +615,11 @@ solution Powell(matrix x0, double epsilon, int Nmax, matrix O)
 		{
 			A = set_col(A, P.x, 0);
 			A = set_col(A, D[i], 1);
-			ab = compute_ab(ab[0], ab[1], limits);
+			ab = compute_ab(P.x, D[1], limits);
 			h = golden(ab[0], ab[1], epsilon, Nmax, A);
 			P.x = P.x + h.x * D[i];
 		}
-		if (norm(X.x - P.x) < epsilon || solution::f_calls > Nmax)
+		if (norm(P.x - X.x) < epsilon || solution::f_calls > Nmax)
 		{
 			P.fit_fun();
 			return P;
@@ -629,7 +629,7 @@ solution Powell(matrix x0, double epsilon, int Nmax, matrix O)
 		D = set_col(D, P.x - X.x, n[0] - 1);
 		A = set_col(A, P.x, 0);
 		A = set_col(A, D[n[0] - 1], 1);
-		ab = compute_ab(ab[0], ab[1], limits);
+		ab = compute_ab(X.x, D, limits);
 		h = golden(ab[0], ab[1], epsilon, Nmax, A);
 		X.x = P.x + h.x * D[n[0] - 1];
 	}
