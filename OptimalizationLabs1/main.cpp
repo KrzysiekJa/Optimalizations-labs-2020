@@ -643,14 +643,19 @@ int main()
 		O(0, 1) = 1;
 		O(1, 0) = 0.01;
 		O(1, 1) = 0.05;
-		double w = 1;
-		x0(0) = (O(0, 1) - O(0, 0)) * R() / R.max() + O(0, 0);
-		x0(1) = (O(1, 1) - O(1, 0)) * R() / R.max() + O(1, 0);
-		O(0, 2) = w;
-		solution opt = Powell(x0, epsilon, Nmax, O);
-		cout << opt << endl;
-		solution::clear_calls();
-
+		double w = 0;
+		ofstream S("Powell_sym.csv");
+		for (int i = 0; i < 101; i++) {
+			x0(0) = (O(0, 1) - O(0, 0)) * R() / R.max() + O(0, 0);
+			x0(1) = (O(1, 1) - O(1, 0)) * R() / R.max() + O(1, 0);
+			O(0, 2) = w;
+			solution::clear_calls();
+			solution opt = Powell(x0, epsilon, Nmax, O);
+			S << x0(0) << ";" << x0(1) << ";" << opt.x(0) << ";" << opt.x(1) << ";" << opt.y(0) << ";" << opt.y(1) << ";" << solution::f_calls << ";" << endl;
+			
+			w += 0.01;
+		}
+		S.close();
 #endif
 #endif
 	}

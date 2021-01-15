@@ -605,17 +605,17 @@ solution Powell(matrix x0, double epsilon, int Nmax, matrix O)
 	A(0, 2) = O(0, 2);
 	solution X, P, h;
 	X.x = x0;
-	double* ab = new double[2];
+	double* ab;
 
 	while (true)
 	{
-		P = X.x;
+		P = X;
 
 		for (int i = 0; i < n[0]; ++i)
 		{
 			A = set_col(A, P.x, 0);
 			A = set_col(A, D[i], 1);
-			ab = compute_ab(P.x, D[1], limits);
+			ab = compute_ab(P.x, D[i], limits);
 			h = golden(ab[0], ab[1], epsilon, Nmax, A);
 			P.x = P.x + h.x * D[i];
 		}
@@ -630,7 +630,8 @@ solution Powell(matrix x0, double epsilon, int Nmax, matrix O)
 		D = set_col(D, P.x - X.x, n[0] - 1);
 		A = set_col(A, P.x, 0);
 		A = set_col(A, D[n[0] - 1], 1);
-		ab = compute_ab(X.x, D, limits);
+		//ab = compute_ab(X.x, D, limits);
+		ab = compute_ab(P.x, D[n[0] - 1], limits);
 		h = golden(ab[0], ab[1], epsilon, Nmax, A);
 		X.x = P.x + h.x * D[n[0] - 1];
 	}
