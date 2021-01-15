@@ -630,8 +630,8 @@ solution Powell(matrix x0, double epsilon, int Nmax, matrix O)
 		D = set_col(D, P.x - X.x, n[0] - 1);
 		A = set_col(A, P.x, 0);
 		A = set_col(A, D[n[0] - 1], 1);
-		ab = compute_ab(X.x, D, limits);
-		//ab = compute_ab(P.x, D[n[0] - 1], limits);
+		//ab = compute_ab(X.x, D, limits);
+		ab = compute_ab(P.x, D[n[0] - 1], limits);
 		h = golden(ab[0], ab[1], epsilon, Nmax, A);
 		X.x = P.x + h.x * D[n[0] - 1];
 	}

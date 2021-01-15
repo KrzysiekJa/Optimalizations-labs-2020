@@ -259,7 +259,7 @@ void solution::fit_fun(matrix O)
     #endif
     #if LAB_PART == 2
         int* n = get_size(O);
-        double f1min = 0.43, f1max = 3.058, f2min = 4.198e-5 , f2max = 0.00197;
+        double f1min = 0.458797, f1max = 3.01327, f2min = 4.35446e-5 , f2max = 0.00188011;
 
         if (n[1] == 1) {
             y = matrix(3, 1);
@@ -277,7 +277,7 @@ void solution::fit_fun(matrix O)
             T.fit_fun();
             yn(0) = (T.y(0) - f1min) / (f1max - f1min);
             yn(1) = (T.y(1) - f2min) / (f2max - f2min);
-            y = O(0, 2) * yn(0) + (1 - O(0, 2)) * yn(1);
+             y = O(0, 2) * yn(0) + (1 - O(0, 2)) * yn(1);
             // y = O(0, 2) * T.y(0) + (1 - O(0, 2)) * T.y(1);
             
             if(T.y(1) > 0.005){
