@@ -418,8 +418,8 @@ solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix O) //metoda n
 	double b;
 	while (true)
 	{
-        X.grad();
-		d = - X.g;
+		X.grad();
+		d = -X.g;
 		P = set_col(P, X.x, 0);
 		P = set_col(P, d, 1);
 		if (h0 < 0) // zmiennokrokowa
@@ -462,7 +462,6 @@ solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 	d = -X.g;
 	while (true)
 	{
-	
 		P = set_col(P, X.x, 0);
 		P = set_col(P, d, 1);
 		if (h0 < 0)
@@ -484,7 +483,7 @@ solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 		}
 		X1.grad();
 		beta = pow(norm(X1.g), 2) / pow(norm(X.g), 2);
-		d = - X1.g + beta * d;
+		d = -X1.g + beta * d;
 		X = X1;
 		//plik << X1.x(0) << ";" << X1.x(1) << endl;
 	}
@@ -520,7 +519,7 @@ solution Newton(matrix x0, double h0, double epsilon, int Nmax, matrix O)
 		else
 			X1.x = X.x + h0 * d;
 		if (norm(X1.x - X.x) < epsilon ||
-			det(X.H) == 0  ||
+			det(X.H) == 0 ||
 			solution::f_calls > Nmax ||
 			solution::g_calls > Nmax)
 		{
@@ -679,15 +678,15 @@ solution EA(int N, matrix limits, double epsilon, int Nmax, matrix O)
 	normal_distribution<double> distr(0.0, 1.0);
 	matrix IFF(mi, 1), temp(N, 2);
 	double r, s, s_IFF;
-	double tau = ? , tau1 = ? ;
+	double tau = pow(2 * N, -0.5), tau1 = pow(2 * pow(N, 0.5), -0.5);
 	int j_min;
-	for (int i = 0; i < ? ; ++i)
+	for (int i = 0; i < mi; ++i)
 	{
 		P[i].x = matrix(N, 2);
 		for (int j = 0; j < N; ++j)
 		{
-			P[i].x(j, 0) = ? ;
-			P[i].x(j, 1) = ? ;
+			P[i].x(j, 0) = (limits(j, 1) - limits(j, 0)) * rd() / rd.max() + limits(j, 0);
+			P[i].x(j, 1) = O(0);
 		}
 		P[i].fit_fun();
 		if (P[i].y < epsilon)
@@ -696,59 +695,59 @@ solution EA(int N, matrix limits, double epsilon, int Nmax, matrix O)
 	while (true)
 	{
 		s_IFF = 0;
-		for (int i = 0; i < ? ; ++i)
+		for (int i = 0; i < mi; ++i)
 		{
 			IFF(i) = 1 / P[i].y(0);
 			s_IFF += IFF(i);
 		}
-		for (int i = 0; i < ? ; ++i)
+		for (int i = 0; i < lambda; ++i)
 		{
-			r = ? ;
+			r = s_IFF * rd() / rd.max(); ;
 			s = 0;
-			for (int j = 0; j < ? ; ++j)
+			for (int j = 0; j < mi; ++j)
 			{
-				s += ? ;
-				if (? )
+				s += IFF(j);
+				if (r <= s)
 				{
-					P[mi + i] = ? ;
+					P[mi + i] = P[j];
 					break;
 				}
 			}
 		}
-		for (int i = 0; i < ? ; ++i)
+		for (int i = 0; i < lambda; ++i)
 		{
 			r = distr(gen);
 			for (int j = 0; j < N; ++j)
 			{
-				P[mi + i].x(j, 1) *= ? ;
-				P[mi + i].x(j, 0) += ? ;
+				P[mi + i].x(j, 1) *= exp(tau1 * r + tau * distr(gen));
+				P[mi + i].x(j, 0) += P[mi + i].x(j, 1) * distr(gen);
 			}
 		}
-		for (int i = 0; i < ? ; i += 2)
+		for (int i = 0; i < lambda; i += 2)
 		{
-			r = ? ;
+			r = 1.0 * rd() / rd.max();
 			temp = P[mi + i].x;
-			P[mi + i].x = ? ;
-			P[mi + i + 1].x = ? ;
+			P[mi + i].x = r * P[mi + i].x + (1 - r) * P[mi + i + 1].x;
+			P[mi + i + 1].x = r * P[mi + i + 1].x + (1 - r) * temp;
 		}
-		for (int i = 0; i < ? ; ++i)
+		for (int i = 0; i < lambda; ++i)
 		{
 			P[mi + i].fit_fun();
 			if (P[mi + i].y < epsilon)
 				return P[mi + i];
 		}
-		for (int i = 0; i < ? ; ++i)
+		for (int i = 0; i < mi; ++i)
 		{
 			j_min = 0;
-			for (int j = 1; j < ? ; ++j)
+			for (int j = 1; j < mi + lambda; ++j)
 				if (P[j_min].y > P[j].y)
 					j_min = j;
 			Pm[i] = P[j_min];
 			P[j_min].y = 1e10;
 		}
-		for (int i = 0; i < ? ; ++i)
+		for (int i = 0; i < mi; ++i)
 			P[i] = Pm[i];
-		if (? )
+		if (solution::f_calls > Nmax)
 			return P[0];
 	}
 }
