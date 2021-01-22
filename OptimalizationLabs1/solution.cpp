@@ -304,16 +304,32 @@ void solution::fit_fun(matrix O)
     #endif
 #endif
 #if LAB_NO == 7
-#if LAB_PART == 1
+    #if LAB_PART == 1
 
         y = pow(x(0), 2) + pow(x(1), 2) - cos(2.5 * M_PI * x(0)) - cos(2.5 * M_PI * x(1)) + 2;
 
-#endif
-#if LAB_PART == 2
+    #endif
+    #if LAB_PART == 2
 
+        int N = 1001;
+        static matrix X(N, 2);
+        
+        if(solution::f_calls == 0){
+            ifstream S("polozenia.txt");
+            S >> X;
+            S.close();
+        }
+        
+        matrix Y0(4,1);
+        matrix *Y = solve_ode(0, 0.1, 100, Y0, X);
+        y(0) = 0.0;
+        
+        for(int i = 0; i < N; ++i){
+            y = y + abs(X(i,0) - Y[1](i,0)) + abs(X(i,1) - Y[1](i,2));
+        }
+        y(0) = y(0) /(2 * N);
 
-
-#endif
+    #endif
         ++f_calls;
 #endif
 }

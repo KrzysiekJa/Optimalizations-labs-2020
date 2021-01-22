@@ -693,8 +693,13 @@ int main()
 
 #endif
 #if LAB_PART == 2
-		limits(0, 0) = limits(1, 0) = 0.1;
+        
+        matrix limits = matrix(2,2);
+        limits(0, 0) = limits(1, 0) = 0.1;
 		limits(1, 1) = limits(0, 1) = 3;
+        
+        solution results = EA(2, limits, 0.01, 10000);
+        cout << results.x << endl << endl << results.y << endl;
 
 #endif
 #endif
