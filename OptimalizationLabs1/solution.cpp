@@ -303,6 +303,19 @@ void solution::fit_fun(matrix O)
         
     #endif
 #endif
+#if LAB_NO == 7
+#if LAB_PART == 1
+
+        y = pow(x(0), 2) + pow(x(1), 2) - cos(2.5 * M_PI * x(0)) - cos(2.5 * M_PI * x(1)) + 2;
+
+#endif
+#if LAB_PART == 2
+
+
+
+#endif
+        ++f_calls;
+#endif
 }
 
 void solution::grad(matrix O)

@@ -601,7 +601,7 @@ int main()
 #endif
 #endif
 #if LAB_NO == 6
-		#if LAB_PART == 1
+#if LAB_PART == 1
 		matrix x0(2, 1);
 		double epsilon = 0.00001;
 		int Nmax = 100000;
@@ -632,9 +632,9 @@ int main()
 			O(0, 2) += 0.01;
 		}
 #endif
-		#if LAB_PART == 2
+#if LAB_PART == 2
 
-		matrix x0(2,1);
+		matrix x0(2, 1);
 		matrix O(2, 3);
 		double epsilon = 1e-3;
 		int Nmax = 5000;
@@ -658,10 +658,44 @@ int main()
 			solution::clear_calls();
 			solution opt = Powell(x0, epsilon, Nmax, O);
 			S << x0(0) << ";" << x0(1) << ";" << opt.x(0) << ";" << opt.x(1) << ";" << opt.y(0) << ";" << opt.y(1) << ";" << solution::f_calls << ";" << endl;
-			
+
 			w += 0.01;
 		}
 		S.close();
+#endif
+#endif
+#if LAB_NO == 7
+#if LAB_PART == 1
+
+		matrix limits(2, 2), O(1, 1);
+		double epsilon = 1e-3;
+		int Nmax = 10000, N = 2;
+		random_device R;
+		limits(0, 0) = limits(1, 0) = -5;
+		limits(1, 1) = limits(0, 1) = 5;
+
+		double sigma[] = { 0.01, 0.1, 1.0, 10.0, 100.0 };
+
+		ofstream S("EA.csv");
+		for (int i = 0; i < 5; i++)
+		{
+			O(0) = sigma[i];
+			
+			for (int i = 0; i < 100; i++)
+			{
+				solution::clear_calls();
+				solution XEA = EA(N, limits, epsilon, Nmax, O);
+				S << XEA.x(0) << ";" << XEA.x(1) << ";" << XEA.y(0) << ";" << XEA.f_calls << endl;
+				//cout << EA.x(0) << ";" << EA.x(1) << ";" << EA.y(0) << ";" << EA.f_calls << endl;
+			}
+		}
+		S.close();
+
+#endif
+#if LAB_PART == 2
+		limits(0, 0) = limits(1, 0) = 0.1;
+		limits(1, 1) = limits(0, 1) = 3;
+
 #endif
 #endif
 	}
