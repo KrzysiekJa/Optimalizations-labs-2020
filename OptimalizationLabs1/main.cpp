@@ -668,7 +668,7 @@ int main()
 #if LAB_PART == 1
 
 		matrix limits(2, 2), O(1, 1);
-		double epsilon = 1e-3;
+		double epsilon = 1e-5;
 		int Nmax = 10000, N = 2;
 		random_device R;
 		limits(0, 0) = limits(1, 0) = -5;
