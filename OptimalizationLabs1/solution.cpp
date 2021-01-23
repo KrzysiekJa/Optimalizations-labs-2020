@@ -315,9 +315,9 @@ void solution::fit_fun(matrix O)
         static matrix X(N, 2);
         
         if(solution::f_calls == 0){
-            ifstream S("polozenia.txt");
-            S >> X;
-            S.close();
+            ifstream F("polozenia.txt");
+            F >> X;
+            F.close();
         }
    
         matrix Y0(4,1);
