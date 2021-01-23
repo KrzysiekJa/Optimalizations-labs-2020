@@ -319,15 +319,15 @@ void solution::fit_fun(matrix O)
             S >> X;
             S.close();
         }
-        
+   
         matrix Y0(4,1);
-        matrix *Y = solve_ode(0, 0.1, 100, Y0, X);
+        matrix *Y = solve_ode(0, 0.1, 100, Y0, x);
         y(0) = 0.0;
         
         for(int i = 0; i < N; ++i){
             y = y + abs(X(i,0) - Y[1](i,0)) + abs(X(i,1) - Y[1](i,2));
         }
-        y(0) = y(0) /(2 * N);
+        y(0) = y(0) /(2. * N);
 
     #endif
         ++f_calls;

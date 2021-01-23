@@ -694,13 +694,25 @@ int main()
 #endif
 #if LAB_PART == 2
         
-        matrix limits = matrix(2,2);
+		matrix limits(2, 2), O(1, 1);
         limits(0, 0) = limits(1, 0) = 0.1;
 		limits(1, 1) = limits(0, 1) = 3;
-        
-        solution results = EA(2, limits, 0.01, 10000);
-        cout << results.x << endl << endl << results.y << endl;
+		double epsilon = 1e-2;
+		int Nmax = 10000;
+		O(0) = 1.;
 
+        solution results = EA(2, limits, epsilon, Nmax);
+		cout << results << endl;
+
+		matrix Y0(4, 1);
+		matrix* Y = solve_ode(0, 0.1, 100, Y0, results.x);
+		ofstream S("EA_sym.csv");
+		for (int i = 0; i < 1001; i++){
+			S << Y[1](i, 0) <<";"<< Y[1](i, 2) << endl;
+		}
+		S.close();
+       // cout << results.x << endl << endl << results.y << endl;
+	
 #endif
 #endif
 	}

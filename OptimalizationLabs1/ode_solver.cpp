@@ -19,6 +19,7 @@ matrix *solve_ode(double t0, double dt, double tend, const matrix &Y0, matrix P)
 	for (int i = 0; i < n; ++i)
 		S[1](i, 0) = Y0(i);
 	matrix k1(n), k2(n), k3(n), k4(n);
+	//cout << "b1 = " << P(0, 0) << ", b2 = " << P(1, 0) << endl;
 	for (int i = 1; i < N; ++i)
 	{
 		S[0](i) = S[0](i - 1) + dt;
@@ -94,13 +95,12 @@ matrix diff(double t, const matrix &Y, matrix P)
     dY(3) = -(m * g + Dy + FMy)/ m;
     
     return dY;
-#else
-	matrix dY(Y);
-	return dY;
+
 #endif
-#if LAB_NO == 6
+#if LAB_NO == 7
     double m1 = 5.0, m2 = 5.0, k1 = 1.0, k2 = 1.0;
     double b1 = P(0,0), b2 = P(1,0), F = 1.0;
+	//cout << "b1 = " << P(0,0) << ", b2 = " << P(1,0) << endl;
     matrix dY(4,1);
     
     dY(0) = Y(1);
@@ -110,4 +110,5 @@ matrix diff(double t, const matrix &Y, matrix P)
     
     return dY;
 #endif
+
 }
